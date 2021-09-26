@@ -3,7 +3,7 @@
 # and using sort.
 import random
 import sys
-
+#find closest pair
 def closet_pair_num_1(n):
     import random
     a = random.sample(range(1, 100), n)
