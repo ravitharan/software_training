@@ -16,9 +16,9 @@ msg.
 """
 #2
 def question_2():
-    msg="hello"" ";
-    var=4*msg+msg;
-    print(var," " )
+    msg = "hello";
+    var = 4 * (msg + " ") + msg;
+    print(var)
 
 """3 msg = 'Hello python world'
 Give two expressions using variable msg only to get the string “python world”.
