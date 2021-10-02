@@ -1,5 +1,6 @@
 import os.path
 import base64
+import random
 
 def encrypt_credential():
     """ convert credentials.json file into encrypted binary file credentials.bin
@@ -10,61 +11,57 @@ def encrypt_credential():
     4) Save the new bytes content into a binary file credentials.bin
     """
 
-    credential = ''
     with open('credentials.json','r') as f:
-        data = f.read()
+        data = f.read().encode()
 
-        #encrypt
-        data_bytes = data.encode('ascii')
-        base64_bytes = base64.b64encode(data_bytes)
-        base64_data = base64_bytes.decode('ascii')
+        keys = random.sample(range(256), 8)
+        print(keys)
+        encode_keys = base64.b64encode(bytes(keys))
+        print(encode_keys)
+        hidden_keys = []
+        for k in encode_keys:
+            hidden_keys.append(k ^ b'k'[0])
+        print(hidden_keys)
+        
+        bin_data = []
+        for i, d in enumerate(data):
+            bin_data.append(d ^ keys[i%8])
 
-        #encode with xor
-        xorKey = 'K';
-        length = len(base64_bytes);
 
-        for i in range(length):
-            base64_data = (base64_data[:i] +
-                         chr(ord(base64_data[i]) ^ ord(xorKey)) +
-                         base64_data[i + 1:]);
-        #convert to bytes  
-        credential = base64_data.encode('ascii')    
-
-    #bin file
-    with open('credentials.bin','wb') as f:
-         f.write(credential)
+        #bin file
+        with open('credentials.bin','wb') as f:
+            key_len = len(hidden_keys)
+            f.write(key_len.to_bytes(1, 'little'))
+            f.write(bytes(hidden_keys))
+            f.write(bytes(bin_data))
 
          
 
 def decrypt_credential():
     """ convert credentials.bin file into credentials.json file """
 
-    credential=''
     with open('credentials.bin','rb') as f:
         data = f.read()
+        key_len = data[0]
+        hidden_keys = data[1:key_len+1]
+        print(list(hidden_keys))
+        encode_keys = []
+        for k in hidden_keys:
+            encode_keys.append(k ^ b'k'[0])
+        encode_keys = bytes(encode_keys)
+        print(encode_keys)
+        keys = base64.b64decode(encode_keys)
+        print(list(keys))
         
-        #convert to string
-        data = data.decode('ascii')
+        credential = []
+        for i, d in enumerate(data[key_len+1:]):
+            credential.append(d ^ keys[i%8])
+        credential = bytes(credential)
 
-        #decode with XOR
-        xorKey = 'K';
-        length = len(data);
-
-        for i in range(length):
-            data = (data[:i] +
-                        chr(ord(data[i]) ^ ord(xorKey)) +
-                        data[i + 1:]);
-        #decrypt  
-        base64_bytes = data.encode('ascii')
-        decode_bytes = base64.b64decode(base64_bytes)
-        credential = decode_bytes.decode('ascii')
-
-
-    #json file
-    with open('credentials.json','w') as f:
-         f.write(credential)
+        with open('credentials.json', 'w') as f:
+             f.write(credential.decode())
 
 if __name__ == '__main__':
     encrypt_credential()
-    #decrypt_credential()
+    decrypt_credential()
 
