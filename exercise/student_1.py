@@ -324,3 +324,31 @@ if __name__ == '__main__':
     question = f"question_{qn_num}"
     function = eval(question)
     function()
+    
+    # 31 Find prime factors of a number.
+
+def prime_factor(number):
+    value=number
+    a=2
+    while value>1:
+        if value%a==0:
+            print(a,end=",")
+            value=int(value/a)
+        else:
+            a=a+1
+number=int(input("Enter Any Number : "))
+prime_factor(number)
+
+# 32 find the greatest common divisor of two numbers
+number1=int(input("Enter First Number :"))
+number2=int(input("Enter Second Number :"))
+for m in range(1,min(number1,number2)+1):
+    if(number1%m==0 and number2%m==0):
+        gcd=m
+print("GCD"number1,"and",number2,"is common divisor",gcd)
+
+# 41 permutations
+from itertools import permutations
+user_input = input("Enter value :")
+permutations = [''.join(n) for n in permutations(user_input)]
+print(permutations)
