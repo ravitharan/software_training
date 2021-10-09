@@ -55,27 +55,24 @@ def question_6():
 #Find the total of following sequence numbers using range() and for loop,
 #7 : 1, 2, 3, …, 99, 100
 def question_7():
-    count = 0
-    for x in range (1,100):
-        count+= x
-    print(count)
+    total = 0
+    for x in range(1,101):
+        total += x
+    print(total)
 
 #8 : 1, 3, 5, …, 97, 99
 def question_8():
-    count = 0
-    for x in range (1,100):
-        if x%2 != 0:
-            count = count+ x
-    print(count)
+    total = 0
+    for x in range(1, 100, 2):
+        total += x
+    print(total)
 
 #9 : 2, 4, 6, …, 98, 100
 def question_9():
-    count = 0
-    a=[]
-    for x in range (1,100):
-        if x%2 == 0:
-            count = count+ x
-    print(count)
+    total = 0
+    for x in range(2, 101, 2):
+        total += x
+    print(total)
 
 #Create a 1000 random number list with the value between 1 and 100 (inclusive). Using this list,
 #10 : How many numbers are between 1 and 50 (inclusive)
