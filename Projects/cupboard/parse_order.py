@@ -14,7 +14,6 @@ def get_order_list(wb, cupboard_parts):
             style = ws.cell(row,7).value.strip()
             color = ws.cell(row,9).value.strip()
             parts = cupboard_parts[cupboard]
-            print(parts)
             parts_details = [ [x[0], f'{material}_{style}_{color}_{x[1]}_{x[2]}'] for x in parts ]
             for new in parts_details:
                 for i, exist in enumerate(ordered_parts):
