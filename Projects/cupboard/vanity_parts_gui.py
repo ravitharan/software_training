@@ -33,11 +33,14 @@ if __name__ == '__main__':
 
             wb = openpyxl.Workbook()
             ws = wb.active
-            ws.title = "PARTS DETAILS"
-            wb.create_sheet("PARTS COLOR")
-            ws = [ wb["PARTS DETAILS"], wb["PARTS COLOR"] ]
+            ws.title = "PARTS STYLE DETAILS"
+            wb.create_sheet("PARTS COLOR IN STYLES")
+            wb.create_sheet("PARTS COLOR DETAILS")
+
+            ws = [ wb["PARTS STYLE DETAILS"], wb["PARTS COLOR IN STYLES"], wb["PARTS COLOR DETAILS"] ]
 
             write_parts_for_workshop(ws, items)
+            adjust_column_width(ws)
 
             wb.save(dst_path)
             return_value = "pass"
