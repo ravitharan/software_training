@@ -3,6 +3,7 @@ import os
 from parse_vanity_info import *
 from parse_order import *
 from write_order_parts import *
+from counter_top import *
 
 if __name__ == '__main__':
 
@@ -27,22 +28,30 @@ if __name__ == '__main__':
             dst_path = os.path.dirname(input_xlsx)
             dst_path = os.path.join(dst_path, "output.xlsx")
 
-            wb = openpyxl.load_workbook(input_xlsx)
-            cupboard_parts = get_cupboard_list(wb)
-            items = get_order_list(wb, cupboard_parts)
+            wb_in = openpyxl.load_workbook(input_xlsx)
+            cupboard_parts = get_cupboard_list(wb_in)
+            items = get_order_list(wb_in, cupboard_parts)
 
-            wb = openpyxl.Workbook()
-            ws = wb.active
+            wb_out = openpyxl.Workbook()
+            ws = wb_out.active
             ws.title = "PARTS STYLE DETAILS"
-            wb.create_sheet("PARTS COLOR IN STYLES")
-            wb.create_sheet("PARTS COLOR DETAILS")
+            wb_out.create_sheet("PARTS COLOR IN STYLES")
+            wb_out.create_sheet("PARTS COLOR DETAILS")
 
-            ws = [ wb["PARTS STYLE DETAILS"], wb["PARTS COLOR IN STYLES"], wb["PARTS COLOR DETAILS"] ]
+            ws_vanity = [ wb_out["PARTS STYLE DETAILS"], wb_out["PARTS COLOR IN STYLES"], wb_out["PARTS COLOR DETAILS"] ]
 
-            write_parts_for_workshop(ws, items)
-            adjust_column_width(ws)
+            write_parts_for_workshop(ws_vanity, items)
+            adjust_column_width(ws_vanity)
 
-            wb.save(dst_path)
+            # counter top
+            counter_tops, sizes, colors, counts = get_counter_tops(wb_in)
+            details =  get_countertop_details(counter_tops, sizes, colors)
+            wb_out.create_sheet("COUNTER TOP")
+            ws_ct = wb_out["COUNTER TOP"]
+            write_counter_top(ws_ct, 2, details, sizes, colors, counts)
+
+
+            wb_out.save(dst_path)
             return_value = "pass"
             break
         elif event == 'Cancel' or event == sg.WIN_CLOSED: # if user closes window or clicks cancel
