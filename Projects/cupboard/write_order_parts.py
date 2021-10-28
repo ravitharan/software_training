@@ -2,6 +2,10 @@ from parse_vanity_info import *
 from parse_order import *
 from openpyxl.styles import *
 
+SHEET_STYLE_COUNT       = "STYLE COUNT"
+SHEET_COLOR_COUNT       = "COLOR COUNT"
+SHEET_STYLE_COLOR_COUNT = "STYLE COLOR COUNT"
+
 def adjust_column_width(work_sheets):
     for ws in work_sheets:
         for column_cells in ws.columns:
@@ -55,7 +59,7 @@ def write_material_items(work_sheets, start_row, items):
         ws.cell(row, 2).font = Font(bold=True)
         ws.cell(row, 2).alignment = Alignment(horizontal="center")
 
-        if ws.title == "PARTS COLOR DETAILS":
+        if ws.title == SHEET_COLOR_COUNT:
             for i, color in enumerate(colors):
                 ws.cell(row, i+3).value = color
                 ws.cell(row, i+3).font = Font(bold=True)
@@ -157,19 +161,20 @@ def write_part_names(work_sheets, start_row, item, details, sizes, styles, color
             for ws in work_sheets:
                 ws.cell(row,2).value = size
 
-                if ws.title == "PARTS STYLE DETAILS":
+                if ws.title == SHEET_STYLE_COUNT:
                     for i, style in enumerate(styles):
                         if style in details[size]:
                             ws.cell(row, i+3).value = details[size][style][0]
                             ws.cell(row, i+3).alignment = Alignment(horizontal="center")
                             styles_total[i] += details[size][style][0]
-                elif ws.title == "PARTS COLOR IN STYLES":
+
+                elif ws.title == SHEET_STYLE_COLOR_COUNT:
                     for i, style in enumerate(styles):
                         if style in details[size]:
                             ws.cell(row,i+3).value = details[size][style][1]
                             ws.cell(row,i+3).alignment = Alignment(wrap_text=True)
 
-                elif ws.title == "PARTS COLOR DETAILS":
+                elif ws.title == SHEET_COLOR_COUNT:
                     for i, color in enumerate(colors):
                         if color in details[size]:
                             ws.cell(row, i+3).value = details[size][color]
@@ -182,7 +187,7 @@ def write_part_names(work_sheets, start_row, item, details, sizes, styles, color
         ws.cell(row,1).value = 'Total'
         ws.cell(row,2).border = border_style
         ws.cell(row,2).alignment = Alignment(horizontal="center")
-        if ws.title == "PARTS COLOR DETAILS":
+        if ws.title == SHEET_COLOR_COUNT:
             ws.cell(row,2).value = sum(colors_total)
             for i, color in enumerate(colors):
                 ws.cell(row,i+3).border = border_style
@@ -211,11 +216,11 @@ if __name__ == "__main__":
 
     wb = openpyxl.Workbook()
     ws = wb.active
-    ws.title = "PARTS STYLE DETAILS"
-    wb.create_sheet("PARTS COLOR IN STYLES")
-    wb.create_sheet("PARTS COLOR DETAILS")
+    ws.title = SHEET_STYLE_COUNT
+    wb.create_sheet(SHEET_STYLE_COLOR_COUNT)
+    wb.create_sheet(SHEET_COLOR_COUNT)
 
-    ws = [ wb["PARTS STYLE DETAILS"], wb["PARTS COLOR IN STYLES"], wb["PARTS COLOR DETAILS"] ]
+    ws = [ wb[SHEET_STYLE_COUNT], wb[SHEET_STYLE_COLOR_COUNT], wb[SHEET_COLOR_COUNT] ]
 
     write_parts_for_workshop(ws, items)
     adjust_column_width(ws)

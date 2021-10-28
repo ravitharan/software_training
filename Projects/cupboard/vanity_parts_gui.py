@@ -17,7 +17,7 @@ if __name__ == '__main__':
     ]
 
     # Create the Window
-    window = sg.Window('Vanity parts order v1.0', layout)
+    window = sg.Window('Vanity parts order v2.0', layout)
 
     # Event Loop to process "events" and get the "values" of the inputs
     return_value = "cancel"
@@ -34,11 +34,11 @@ if __name__ == '__main__':
 
             wb_out = openpyxl.Workbook()
             ws = wb_out.active
-            ws.title = "PARTS STYLE DETAILS"
-            wb_out.create_sheet("PARTS COLOR IN STYLES")
-            wb_out.create_sheet("PARTS COLOR DETAILS")
+            ws.title = SHEET_STYLE_COUNT
+            wb_out.create_sheet(SHEET_COLOR_COUNT)
+            wb_out.create_sheet(SHEET_STYLE_COLOR_COUNT)
 
-            ws_vanity = [ wb_out["PARTS STYLE DETAILS"], wb_out["PARTS COLOR IN STYLES"], wb_out["PARTS COLOR DETAILS"] ]
+            ws_vanity = [ wb_out[SHEET_STYLE_COUNT], wb_out[SHEET_COLOR_COUNT], wb_out[SHEET_STYLE_COLOR_COUNT] ]
 
             write_parts_for_workshop(ws_vanity, items)
             adjust_column_width(ws_vanity)
@@ -46,8 +46,8 @@ if __name__ == '__main__':
             # counter top
             counter_tops, sizes, colors, counts = get_counter_tops(wb_in)
             details =  get_countertop_details(counter_tops, sizes, colors)
-            wb_out.create_sheet("COUNTER TOP")
-            ws_ct = wb_out["COUNTER TOP"]
+            wb_out.create_sheet(SHEET_COUNTER_TOP)
+            ws_ct = wb_out[SHEET_COUNTER_TOP]
             write_counter_top(ws_ct, 2, details, sizes, colors, counts)
 
 

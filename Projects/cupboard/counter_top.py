@@ -4,6 +4,7 @@ import openpyxl
 from openpyxl.styles import *
 from openpyxl.utils import get_column_letter
 
+SHEET_COUNTER_TOP = "COUNTER TOP"
 
 def get_counter_tops(wb):
     '''
@@ -120,7 +121,7 @@ if __name__ == "__main__":
 
     wb = openpyxl.Workbook()
     ws = wb.active
-    ws.title = "COUNTER TOP"
+    ws.title = SHEET_COUNTER_TOP
 
     write_counter_top(ws, 2, details, sizes, colors, counts)
 
