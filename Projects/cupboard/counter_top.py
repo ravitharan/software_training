@@ -123,7 +123,7 @@ if __name__ == "__main__":
     ws = wb.active
     ws.title = SHEET_COUNTER_TOP
 
-    write_counter_top(ws, 2, details, sizes, colors, counts)
+    write_counter_top(ws, 3, details, sizes, colors, counts)
 
     wb.save('output.xlsx')
 

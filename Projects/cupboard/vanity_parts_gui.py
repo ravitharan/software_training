@@ -30,7 +30,7 @@ if __name__ == '__main__':
 
             wb_in = openpyxl.load_workbook(input_xlsx)
             cupboard_parts = get_cupboard_list(wb_in)
-            items = get_order_list(wb_in, cupboard_parts)
+            items, work_week = get_order_list(wb_in, cupboard_parts)
 
             wb_out = openpyxl.Workbook()
             ws = wb_out.active
@@ -38,18 +38,26 @@ if __name__ == '__main__':
             wb_out.create_sheet(SHEET_COLOR_COUNT)
             wb_out.create_sheet(SHEET_STYLE_COLOR_COUNT)
 
-            ws_vanity = [ wb_out[SHEET_STYLE_COUNT], wb_out[SHEET_COLOR_COUNT], wb_out[SHEET_STYLE_COLOR_COUNT] ]
+            work_sheets = [ wb_out[SHEET_STYLE_COUNT], wb_out[SHEET_COLOR_COUNT], wb_out[SHEET_STYLE_COLOR_COUNT] ]
 
-            write_parts_for_workshop(ws_vanity, items)
-            adjust_column_width(ws_vanity)
+            write_parts_for_workshop(work_sheets, items)
+            adjust_column_width(work_sheets)
 
             # counter top
             counter_tops, sizes, colors, counts = get_counter_tops(wb_in)
             details =  get_countertop_details(counter_tops, sizes, colors)
             wb_out.create_sheet(SHEET_COUNTER_TOP)
             ws_ct = wb_out[SHEET_COUNTER_TOP]
-            write_counter_top(ws_ct, 2, details, sizes, colors, counts)
+            write_counter_top(ws_ct, START_ROW, details, sizes, colors, counts)
 
+            work_sheets.append(ws_ct)
+            for ws in work_sheets:
+                ws.cell(1, 1).value = "WEEK NO:"
+                ws.cell(1, 1).font = Font(bold=True)
+
+                ws.cell(1, 2).value = work_week
+                ws.cell(1, 2).font = Font(bold=True)
+                ws.cell(1, 2).alignment = Alignment(horizontal="center")
 
             wb_out.save(dst_path)
             return_value = "pass"

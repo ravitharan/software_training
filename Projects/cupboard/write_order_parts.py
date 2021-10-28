@@ -6,6 +6,8 @@ SHEET_STYLE_COUNT       = "STYLE COUNT"
 SHEET_COLOR_COUNT       = "COLOR COUNT"
 SHEET_STYLE_COLOR_COUNT = "STYLE COLOR COUNT"
 
+START_ROW = 3
+
 def adjust_column_width(work_sheets):
     for ws in work_sheets:
         for column_cells in ws.columns:
@@ -23,7 +25,7 @@ def write_parts_for_workshop(work_sheets, items):
     materials = list(set(materials))
     materials.sort()
 
-    start_row = 1
+    start_row = START_ROW
     for material in materials:
         items_for_material = [x for x in items if x[1] == material]
         start_row += write_material_items(work_sheets, start_row, items_for_material)
@@ -212,7 +214,7 @@ if __name__ == "__main__":
     excel_file = sys.argv[1]
     wb = openpyxl.load_workbook(excel_file)
     cupboard_parts = get_cupboard_list(wb)
-    items = get_order_list(wb, cupboard_parts)
+    items, work_week = get_order_list(wb, cupboard_parts)
 
     wb = openpyxl.Workbook()
     ws = wb.active

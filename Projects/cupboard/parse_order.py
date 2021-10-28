@@ -1,10 +1,13 @@
 from parse_vanity_info import *
 
+
 def get_order_list(wb, cupboard_parts):
     '''
     Parse main sheet and get the order list
     '''
     ws = wb["Main Sheet"]
+    work_week = ws['H1'].value
+    print(f'WORK_WEEK {work_week}')
 
     ordered_parts = []
     for row in range(1, ws.max_row+1):
@@ -31,7 +34,7 @@ def get_order_list(wb, cupboard_parts):
     #Sort by material, name, size, style and color
     items = sorted(order, key=lambda item: (item[1], item[5], item[4], item[2], item[3]))
 
-    return items
+    return items, work_week
             
 
 if __name__ == "__main__":
@@ -42,7 +45,7 @@ if __name__ == "__main__":
     excel_file = sys.argv[1]
     wb = openpyxl.load_workbook(excel_file)
     cupboard_parts = get_cupboard_list(wb)
-    items = get_order_list(wb, cupboard_parts)
+    items, work_week = get_order_list(wb, cupboard_parts)
 
     for p in items:
         print(p)
