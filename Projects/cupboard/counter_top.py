@@ -26,6 +26,9 @@ def get_counter_tops(wb):
         color = ws["AG" + str(x)].value
         sink  = ws["AH" + str(x)].value
         if isinstance(cupboard_id, int) and size and color and sink:
+            size  = size.strip()
+            color = color.strip()
+            sink  = sink.strip()
             size = size.replace('"', '')
             if sink == "RECTANGULAR":
                 rect_count += 1
@@ -115,7 +118,7 @@ if __name__ == "__main__":
         exit(1)
 
     excel_file = sys.argv[1]
-    wb = openpyxl.load_workbook(excel_file)
+    wb = openpyxl.load_workbook(excel_file, data_only=True)
     counter_tops, sizes, colors, counts = get_counter_tops(wb)
     details =  get_countertop_details(counter_tops, sizes, colors)
 

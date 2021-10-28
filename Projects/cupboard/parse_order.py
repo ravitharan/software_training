@@ -43,7 +43,7 @@ if __name__ == "__main__":
         exit(1)
 
     excel_file = sys.argv[1]
-    wb = openpyxl.load_workbook(excel_file)
+    wb = openpyxl.load_workbook(excel_file, data_only=True)
     cupboard_parts = get_cupboard_list(wb)
     items, work_week = get_order_list(wb, cupboard_parts)
 

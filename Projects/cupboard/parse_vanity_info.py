@@ -74,7 +74,7 @@ if __name__ == "__main__":
         exit(1)
 
     excel_file = sys.argv[1]
-    wb = openpyxl.load_workbook(excel_file)
+    wb = openpyxl.load_workbook(excel_file, data_only=True)
     cupboard_parts = get_cupboard_list(wb)
     for key in cupboard_parts:
         print(key , " ")

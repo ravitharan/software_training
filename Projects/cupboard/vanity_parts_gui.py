@@ -28,7 +28,7 @@ if __name__ == '__main__':
             dst_path = os.path.dirname(input_xlsx)
             dst_path = os.path.join(dst_path, "output.xlsx")
 
-            wb_in = openpyxl.load_workbook(input_xlsx)
+            wb_in = openpyxl.load_workbook(input_xlsx, data_only=True)
             cupboard_parts = get_cupboard_list(wb_in)
             items, work_week = get_order_list(wb_in, cupboard_parts)
 
