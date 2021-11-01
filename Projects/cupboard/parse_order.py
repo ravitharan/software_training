@@ -33,7 +33,9 @@ def get_order_list(wb, cupboard_parts):
 
     #Sort by material, name, size, style and color
     items = sorted(order, key=lambda item: (item[1], item[5], item[4], item[2], item[3]))
-
+    for item_name in items:
+        if item_name[5] == "TOWER MOULDING" or  item_name[5] == "DOOR MOULDING":
+            item_name[5] = "MOULDING"
     return items, work_week
             
 
