@@ -66,8 +66,9 @@ def get_countertop_details(counter_tops, sizes, colors):
             if item[0] not in details:
                 details[item[0]] = {}
             details[item[0]][item[1]] = 1
-    #print(details)
+
     return details
+
 def Sink_Splash(sinks_splash_list):
     Sink_Splash = {}
 
@@ -78,9 +79,8 @@ def Sink_Splash(sinks_splash_list):
             if value[0] not in Sink_Splash:
                 Sink_Splash[value[0]] = {}
             Sink_Splash[value[0]][value[1]] = 1
-    #print(type(Sink_Splash))
+            
     return Sink_Splash
- 
 
 def write_counter_top(ws, start_row, details, sizes, colors, sink_counts):
     
@@ -108,10 +108,10 @@ def write_counter_top(ws, start_row, details, sizes, colors, sink_counts):
                     ws.cell(row, i+1).font = Font(bold=True)
                     ws.cell(row, i+1).alignment = Alignment(horizontal="center")
             i += 1
+            
     row += 1
     str_row = row
     st_row = row - 1
-    #print(row)
     total = [0] * len(colors)
     for size in sizes:
         max_col_width[0] = max(max_col_width[0], len(size))
