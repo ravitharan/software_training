@@ -52,13 +52,13 @@ def get_counter_tops(wb):
     sizes.sort(key = lambda x: int(x.split()[0]))
     colors.sort()
     sinks_splash.sort()
-
+    
     return counter_tops, sinks_splash_list, list(sizes), list(colors), list(sinks_splash), [rect_count, oval_count]
 
 def get_countertop_details(counter_tops, sizes, colors):
 
     details = {}
-
+    
     for item in counter_tops:
         if (item[0] in details) and (item[1] in details[item[0]]):
             details[item[0]][item[1]] += 1
@@ -66,12 +66,11 @@ def get_countertop_details(counter_tops, sizes, colors):
             if item[0] not in details:
                 details[item[0]] = {}
             details[item[0]][item[1]] = 1
-
+    #print(details)
     return details
-
-def countertop_Sink_Splash(sinks_splash_list):
+def Sink_Splash(sinks_splash_list):
     Sink_Splash = {}
-    
+
     for value in sinks_splash_list:
         if (value[0] in Sink_Splash) and (value[1] in Sink_Splash[value[0]]):
             Sink_Splash[value[0]][value[1]] += 1
@@ -79,11 +78,12 @@ def countertop_Sink_Splash(sinks_splash_list):
             if value[0] not in Sink_Splash:
                 Sink_Splash[value[0]] = {}
             Sink_Splash[value[0]][value[1]] = 1
-            
+    #print(type(Sink_Splash))
     return Sink_Splash
+ 
 
 def write_counter_top(ws, start_row, details, sizes, colors, sink_counts):
-
+    
     row = start_row
     max_col_width = [0] * (1 + len(colors))
 
@@ -109,7 +109,9 @@ def write_counter_top(ws, start_row, details, sizes, colors, sink_counts):
                     ws.cell(row, i+1).alignment = Alignment(horizontal="center")
             i += 1
     row += 1
-
+    str_row = row
+    st_row = row - 1
+    #print(row)
     total = [0] * len(colors)
     for size in sizes:
         max_col_width[0] = max(max_col_width[0], len(size))
@@ -120,17 +122,41 @@ def write_counter_top(ws, start_row, details, sizes, colors, sink_counts):
                 ws.cell(row, i+2).alignment = Alignment(horizontal="center")
                 total[i] += details[size][color]
         row += 1
-
+        column = i + 4
+    tot1,tot2 = 0, 0   
+    for key in Sink_Splash:
+        for k, value in enumerate(Sink_Splash[key]):
+            if k == 0:
+                st_row += 1
+            if value == "R":
+                ws.cell(st_row, column+1).value = Sink_Splash[key][value]
+                tot1 += Sink_Splash[key][value]
+            elif value == "L":
+                ws.cell(st_row, column).value = Sink_Splash[key][value]
+                tot2 += Sink_Splash[key][value]
+            else:
+                if value == "LR":
+                    ws.cell(st_row, column+1).value = Sink_Splash[key][value]
+                    tot1 += Sink_Splash[key][value]
+                    ws.cell(st_row, column).value = Sink_Splash[key][value]
+                    tot2 += Sink_Splash[key][value]
+    
     border_style = Border(top = Side(style='double'), bottom = Side(style='thin'))
     ws.cell(row, 1).value = sum(total)
     ws.cell(row, 1).alignment = Alignment(horizontal="center")
     ws.cell(row, 1).border = border_style
+    
     for i, color in enumerate(colors):
         if total[i]:
             ws.cell(row, i+2).value = total[i]
             ws.cell(row, i+2).alignment = Alignment(horizontal="center")
             ws.cell(row, i+2).border = border_style
-
+            
+    ws.cell(st_row+1, column).value = tot2
+    ws.cell(st_row+1, column).border = border_style
+    ws.cell(st_row+1, column+1).value = tot1
+    ws.cell(st_row+1, column+1).border = border_style
+    
     for i, col_width in enumerate(max_col_width):
         ws.column_dimensions[get_column_letter(i+1)].width = col_width * 1.5
 
@@ -158,7 +184,8 @@ if __name__ == "__main__":
     wb = openpyxl.load_workbook(excel_file, data_only=True)
     counter_tops, sinks_splash_list, sizes, colors, sinks_splash, counts = get_counter_tops(wb)
     details =  get_countertop_details(counter_tops, sizes, colors)
-
+    Sink_Splash = Sink_Splash(sinks_splash_list)
+    
     wb = openpyxl.Workbook()
     ws = wb.active
     ws.title = SHEET_COUNTER_TOP
