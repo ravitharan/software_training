@@ -11,8 +11,8 @@ maximum_column = active_sheet.max_column
 
 for row in range(6 , maximum_row+1):
     if active_sheet["AD" + str(row)].value != None:
-        if template_sheet[get_column_letter(1) + str(row)].value != None:
-            if "COMPANY" in template_sheet[get_column_letter(1) + str(row)].value:
+        if active_sheet[get_column_letter(1) + str(row)].value != None:
+            if "COMPANY" in active_sheet[get_column_letter(1) + str(row)].value:
                 print(row)
                 template_sheet[get_column_letter(1) + str(row)] = active_sheet[get_column_letter(1) + str(row)].value
                 template_sheet[get_column_letter(1) + str(row+2)] = active_sheet[get_column_letter(1) + str(row+2)].value
@@ -39,6 +39,7 @@ for row in range(6 , maximum_row+1):
 
 
 template.save("C:\\Users\\A2Z Lankan\\Desktop\\sithu\\ct_template.xlsx")      
+        
         
 
     
