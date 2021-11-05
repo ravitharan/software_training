@@ -99,12 +99,12 @@ def write_counter_top(ws, start_row, details, sizes, colors, sink_counts):
                 continue
         else:
             if sink_splash == "R":
-                ws.cell(row, i+1).value = "Right Splash" 
+                ws.cell(row, i+1).value = "Right" 
                 ws.cell(row, i+1).font = Font(bold=True)
                 ws.cell(row, i+1).alignment = Alignment(horizontal="center")
             else:
                 if sink_splash == "L":
-                    ws.cell(row, i+1).value = "Left Splash"
+                    ws.cell(row, i+1).value = "Left"
                     ws.cell(row, i+1).font = Font(bold=True)
                     ws.cell(row, i+1).alignment = Alignment(horizontal="center")
             i += 1
