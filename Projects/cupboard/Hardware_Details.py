@@ -110,14 +110,14 @@ if __name__ == "__main__":
         print(f'Argument error\nUsage: {sys.argv[0]} <cupboard_excel_file>')
         exit(1)
 
-excel_file = sys.argv[1]    
-excel_file = openpyxl.load_workbook(excel_file, data_only=True)
-hardware_count_items = hardware_data(excel_file)
-hardware_count_Dict = hardware_add_count(hardware_count_item)   
+    excel_file = sys.argv[1]    
+    excel_file = openpyxl.load_workbook(excel_file, data_only=True)
+    hardware_count_items = hardware_data(excel_file)
+    hardware_count_Dict = hardware_add_count(hardware_count_items)   
 
-excel_file = openpyxl.Workbook()
-sheet = workbook.active
-sheet.title = Hardware_Details
-Hardware_Details_Write(hardware_count_Dict_data)
+    excel_file = openpyxl.Workbook()
+    sheet = excel_file.active
+    #sheet.title = "Hardware_Details"
+    Hardware_Details_Write(hardware_count_Dict)
 
-workbook.save('Hardware Item Details.xlsx') # New Excel file create
+    excel_file.save('Hardware Item Details.xlsx') # New Excel file create
