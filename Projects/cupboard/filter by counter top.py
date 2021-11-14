@@ -18,7 +18,8 @@ def xl_filter(user_xl_file, template):
     template_sheet["AC30"] = active_sheet["AC30"].value
     template_sheet["AG1"] = active_sheet["AG1"].value
     template_sheet["AG30"] = active_sheet["AG30"].value
-
+    
+    """Write counter top order details"""
     row_num = []
     i = 6
     add = 1
