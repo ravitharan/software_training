@@ -4,26 +4,26 @@ import openpyxl
 from openpyxl.styles import *
 from openpyxl.utils import get_column_letter
 
+CUPBOARD_ID_COLUMN = "E"
+HARDWARE_ITEM_COLUMN = "L"
+
 def hardware_data(excel_file):
     current_sheet = excel_file["Main Sheet"] # Active VANITY INFO sheet
     maximum_row = current_sheet.max_row
     hardware_count_items = []
     for x in range(1 , maximum_row + 1):
-        cupboard_id = current_sheet["E" + str(x)].value
-        if type(cupboard_id) == int and   x < 100:
+        cupboard_id = current_sheet[CUPBOARD_ID_COLUMN + str(x)].value
+        if type(cupboard_id) == int:
             count_items = []
             c = x + 2
-            hardware_count  = current_sheet["L" + str(c)].value
+            hardware_count  = current_sheet[HARDWARE_ITEM_COLUMN + str(c)].value
             if hardware_count != None:
-                hardware_count = hardware_count.replace('[', '')
-                hardware_count = hardware_count.replace(']', '')
-                hardware_count = hardware_count.replace('+', '_')
-                hardware_count = hardware_count.split('_')
+                hardware_count = re.findall('[0-9]+', hardware_count)
                 for count in hardware_count:
                     count_items.append(int(count))
                     
-                hardware_item1 = current_sheet["L" + str(x)].value
-                hardware_item2 = current_sheet["L" + str(x+1)].value
+                hardware_item1 = current_sheet[HARDWARE_ITEM_COLUMN + str(x)].value
+                hardware_item2 = current_sheet[HARDWARE_ITEM_COLUMN + str(x+1)].value
                 if 'DR-' in hardware_item1:
                     hardware_item1 = hardware_item1.replace('DR-','')
                 elif 'DW-' in hardware_item1:
