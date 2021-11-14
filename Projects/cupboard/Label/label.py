@@ -2,63 +2,52 @@ from openpyxl import load_workbook, Workbook, drawing
 from PIL import Image
 from openpyxl_image_loader import SheetImageLoader
 from openpyxl.styles import *
+from openpyxl.utils import *
 
-wb_r = load_workbook("Cupboard.xlsx", data_only=True)
+wb_r = load_workbook("WORK.xlsx", data_only=True)
 ws_r = wb_r["Main Sheet"]
 
-wb_w = load_workbook("CupboardTemplate.xlsx")
+wb_w = load_workbook("template.xlsx")
 ws_w = wb_w.active
 
-#label count
-n=0
-#move row to next label
-row_num = 0
+label_count = 0
+# row_label is as 1, 18, 33, 50, 65, 82, 97, 114, 129, 146, 161, 178, 193, 210
+row_label = 0
 
-for row in range(6, ws_r.max_row+1):
-    if(ws_r["O"+str(row)].value) == 'Q':
-        n += 1
+label_cell_map = [
+        ('H1', 'C6'),
+        ('H2', 'B8'),
+        ('H3', 'D6'),
+        ('G4', 'H1'),
+        ('A7', 'A6'),
+        ]
+
+def add_row(cell_name, row_offset):
+    (col, row) = cell.coordinate_from_string(cell_name)
+    return col + str(row + row_offset)
+
+for row_order in range(1, ws_r.max_row+1):
+    cupboard_id  = ws_r["E" + str(row_order)].value
+    if isinstance(cupboard_id, int):
+        label_count += 1
+        if (label_count == 1):
+            row_label = 1
+        elif ((label_count % 2) == 0):
+            row_label += 17
+        else:
+            row_label += 15
         #image insertion
         
         img = drawing.image.Image('logo.png')
         img.height=130
         img.width=200
-        img.anchor = 'A'+str(1+row_num)
+        img.anchor = 'A'+str(1+row_label)
         ws_w.add_image(img)
         
-        #order details
-        ws_w["H"+str(1+row_num)] = ws_r["C"+str(row)].value
-        ws_w["H"+str(2+row_num)] = ws_r["B"+str(row+2)].value
-        ws_w["H"+str(4+row_num)] = ws_r["D"+str(row)].value
-        ws_w["H"+str(5+row_num)] = ws_r["H1"].value
-        ws_w["A"+str(7+row_num)] = ws_r["A"+str(row)].value
-        
-        #item info
-        ws_w["B"+str(9+row_num)] = ws_r["AF"+str(row)].value
-        ws_w["A"+str(9+row_num)] = 1
-        if(ws_r["AF"+str(row)] != None):
-            ws_w["B"+str(10+row_num)] = ws_r["Y3"].value
-            ws_w["A"+str(10+row_num)] = 1
-        if(ws_r["Y"+str(row)].value != None and ws_r["Z"+str(row)].value != None):
-            ws_w["B"+str(11+row_num)] = ws_r["AM"+str(row)].value
-            ws_w["C"+str(11+row_num)] = ws_r["AM3"].value
-            ws_w["A"+str(11+row_num)] = 1       
-        ws_w["B"+str(13+row_num)] = ws_r["AA"+str(row)].value
-        
-        #item descriotion
-        ws_w["F"+str(9+row_num)] = ws_r["AG3"].value
-        ws_w["G"+str(9+row_num)] = ws_r["AG"+str(row)].value
-        ws_w["F"+str(10+row_num)] = ws_r["AH3"].value
-        ws_w["G"+str(10+row_num)] = ws_r["AH"+str(row)].value
-        ws_w["F"+str(11+row_num)] = ws_r["AI3"].value
-        ws_w["G"+str(11+row_num)] = ws_r["AI"+str(row)].value
-        ws_w["F"+str(12+row_num)] = ws_r["AK3"].value
-        ws_w["G"+str(12+row_num)] = ws_r["AK"+str(row)].value
-        ws_w["F"+str(13+row_num)] = ws_r["AJ3"].value
-        ws_w["G"+str(13+row_num)] = ws_r["AJ"+str(row)].value
-        
-        row_num +=15
+        for (dst, src) in label_cell_map:
+            dst_cell = add_row(dst, row_label - 1)
+            src_cell = add_row(src, row_order - 6)
+            print(f'dst {dst_cell}, src {src_cell}')
+            ws_w[dst_cell].value = ws_r[src_cell].value
 
-wb_w.save("OutputTemplate.xlsx")
-
-print("count" , n)
-
+wb_w.save("big_label.xlsx")
