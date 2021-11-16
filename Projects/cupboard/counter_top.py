@@ -4,9 +4,10 @@ import openpyxl
 from openpyxl.styles import *
 from openpyxl.utils import get_column_letter
 
-SHEET_COUNTER_TOP = "COUNTER TOP"
-Right_Splash = 'Right_Splash'
-Left_Splash = 'Left_Splash'
+SHEET_COUNTER_TOP   = "COUNTER TOP"
+RIGHT_SPLASH        = 'RIGHT SPLASH'
+LEFT_SPLASH         = 'LEFT SPLASH'
+
 def get_counter_tops(wb):
     '''
     Get valid cupboard list from column C and D in "VANITY INFO" sheet.
@@ -42,24 +43,19 @@ def get_counter_tops(wb):
             colors.add(color)
 
             if sink_splash == "R" or sink_splash == "LR":
-                counter_tops.append([size, Right_Splash])
-                colors.add(Right_Splash)
+                counter_tops.append([size, RIGHT_SPLASH])
             if sink_splash == "L" or sink_splash == "LR":
-                counter_tops.append([size, Left_Splash])
-                colors.add(Left_Splash)
+                counter_tops.append([size, LEFT_SPLASH])
 
     sizes = list(sizes)
     colors = list(colors)
 
     sizes.sort(key = lambda x: int(x.split()[0]))
     colors.sort()
-    colors.append("None")
-    if Right_Splash in colors:
-        colors.remove(Right_Splash)
-        colors.append(Right_Splash)
-    if Left_Splash in colors:
-        colors.remove(Left_Splash)
-        colors.append(Left_Splash)
+
+    colors.append('')
+    colors.append(RIGHT_SPLASH)
+    colors.append(LEFT_SPLASH)
 
     return counter_tops, list(sizes), list(colors), [rect_count, oval_count]
 
@@ -84,17 +80,10 @@ def write_counter_top(ws, start_row, details, sizes, colors, sink_counts):
 
     for i, color in enumerate(colors):
         max_col_width[i+1] = len(color)+5
-        if color != "None":
-            if color == Right_Splash or color == Left_Splash:
-                ws.cell(row, i+2).value = color
-                ws.cell(row, i+2).font = Font(bold=True, size = 16)
-                ws.cell(row, i+2).alignment = Alignment(horizontal="center")
-                ws.cell(row, i+2).fill = PatternFill(fgColor="61E43A", fill_type = "solid")
-            else:
-                ws.cell(row, i+2).value = color
-                ws.cell(row, i+2).font = Font(bold=True, size = 16)
-                ws.cell(row, i+2).alignment = Alignment(horizontal="center")
-                ws.cell(row, i+2).fill = PatternFill(fgColor="61E43A", fill_type = "solid")
+        ws.cell(row, i+2).value = color
+        ws.cell(row, i+2).font = Font(bold=True, size = 16)
+        ws.cell(row, i+2).alignment = Alignment(horizontal="center")
+        ws.cell(row, i+2).fill = PatternFill(fgColor="61E43A", fill_type = "solid")
 
     row += 1
 
@@ -105,15 +94,11 @@ def write_counter_top(ws, start_row, details, sizes, colors, sink_counts):
         ws.cell(row, 1).value = size
         for i, color in enumerate(colors):
             if (size in details) and (color in details[size]):
-                if color == Right_Splash or color == Left_Splash:
-                    ws.cell(row, i+2).value = details[size][color]
-                    ws.cell(row, i+2).alignment = Alignment(horizontal="center")
-                    total[i] += details[size][color]
+                ws.cell(row, i+2).value = details[size][color]
+                ws.cell(row, i+2).alignment = Alignment(horizontal="center")
+                total[i] += details[size][color]
+                if color == RIGHT_SPLASH or color == LEFT_SPLASH:
                     sink_splash_total += details[size][color]
-                else:
-                    ws.cell(row, i+2).value = details[size][color]
-                    ws.cell(row, i+2).alignment = Alignment(horizontal="center")
-                    total[i] += details[size][color]
         row += 1
 
     border_style = Border(top = Side(style='double',color = "1734A1"), bottom = Side(style='thin',color = "1734A1"))
@@ -123,16 +108,10 @@ def write_counter_top(ws, start_row, details, sizes, colors, sink_counts):
     ws.cell(row, 1).font = Font(bold=True, size = 14)
     for i, color in enumerate(colors):
         if total[i]:
-            if color == Right_Splash or color == Left_Splash:
-                ws.cell(row, i+2).value = total[i]
-                ws.cell(row, i+2).alignment = Alignment(horizontal="center")
-                ws.cell(row, i+2).border = border_style
-                ws.cell(row, i+2).font = Font(bold=True, size = 12)
-            else:
-                ws.cell(row,i+2).value = total[i]
-                ws.cell(row, i+2).alignment = Alignment(horizontal="center")
-                ws.cell(row, i+2).border = border_style
-                ws.cell(row, i+2).font = Font(bold=True, size = 12)
+            ws.cell(row, i+2).value = total[i]
+            ws.cell(row, i+2).alignment = Alignment(horizontal="center")
+            ws.cell(row, i+2).border = border_style
+            ws.cell(row, i+2).font = Font(bold=True, size = 12)
 
     for i, col_width in enumerate(max_col_width):
         ws.column_dimensions[get_column_letter(i+1)].width = col_width * 1.5
