@@ -79,12 +79,10 @@ def write_counter_top(ws, start_row, details, sizes, colors, sink_counts):
     max_col_width = [0] * (1 + len(colors))
 
     for i, color in enumerate(colors):
-        max_col_width[i+1] = len(color)+5
+        max_col_width[i+1] = len(color)
         ws.cell(row, i+2).value = color
-        ws.cell(row, i+2).font = Font(bold=True, size = 16)
+        ws.cell(row, i+2).font = Font(bold=True)
         ws.cell(row, i+2).alignment = Alignment(horizontal="center")
-        ws.cell(row, i+2).fill = PatternFill(fgColor="61E43A", fill_type = "solid")
-
     row += 1
 
     sink_splash_total = 0
@@ -101,17 +99,15 @@ def write_counter_top(ws, start_row, details, sizes, colors, sink_counts):
                     sink_splash_total += details[size][color]
         row += 1
 
-    border_style = Border(top = Side(style='double',color = "1734A1"), bottom = Side(style='thin',color = "1734A1"))
+    border_style = Border(top = Side(style='double'), bottom = Side(style='thin'))
     ws.cell(row, 1).value = sum(total) - sink_splash_total
     ws.cell(row, 1).alignment = Alignment(horizontal="center")
     ws.cell(row, 1).border = border_style
-    ws.cell(row, 1).font = Font(bold=True, size = 14)
     for i, color in enumerate(colors):
         if total[i]:
             ws.cell(row, i+2).value = total[i]
             ws.cell(row, i+2).alignment = Alignment(horizontal="center")
             ws.cell(row, i+2).border = border_style
-            ws.cell(row, i+2).font = Font(bold=True, size = 12)
 
     for i, col_width in enumerate(max_col_width):
         ws.column_dimensions[get_column_letter(i+1)].width = col_width * 1.5
@@ -119,23 +115,16 @@ def write_counter_top(ws, start_row, details, sizes, colors, sink_counts):
     row += 2
     ws.cell(row, 1).value = "RECTANGULAR"
     ws.cell(row, 1).font = Font(bold=True)
-    ws.cell(row, 1).font = Font(bold=True, size = 14)
-    ws.cell(row, 1).fill = PatternFill(fgColor="E41B17", fill_type = "solid")
 
     ws.cell(row, 2).value = sink_counts[0]
     ws.cell(row, 2).alignment = Alignment(horizontal="center")
-    ws.cell(row, 2).font = Font(bold=True, size = 12)
 
     row += 1
     ws.cell(row, 1).value = "OVAL"
     ws.cell(row, 1).font = Font(bold=True)
-    ws.cell(row, 1).font = Font(bold=True, size = 14)
-    ws.cell(row, 1).fill = PatternFill(fgColor="E41B17", fill_type = "solid")
 
     ws.cell(row, 2).value = sink_counts[1]
     ws.cell(row, 2).alignment = Alignment(horizontal="center")
-    ws.cell(row, 2).font = Font(bold=True, size = 12)
-
     return row
 
 if __name__ == "__main__":
