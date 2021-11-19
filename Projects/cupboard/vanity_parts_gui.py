@@ -4,6 +4,7 @@ from parse_vanity_info import *
 from parse_order import *
 from write_order_parts import *
 from counter_top import *
+from Hardware_Details import *
 
 if __name__ == '__main__':
 
@@ -49,8 +50,16 @@ if __name__ == '__main__':
             wb_out.create_sheet(SHEET_COUNTER_TOP)
             ws_ct = wb_out[SHEET_COUNTER_TOP]
             write_counter_top(ws_ct, START_ROW, details, sizes, colors, counts)
-
             work_sheets.append(ws_ct)
+
+            # knob (hardware) details
+            knob_list = hardware_data(wb_in)
+            knob_details = hardware_add_count(knob_list)
+            wb_out.create_sheet(SHEET_KNOB_COUNT)
+            ws_knob = wb_out[SHEET_KNOB_COUNT]
+            Hardware_Details_Write(ws_knob, START_ROW, knob_details)
+            work_sheets.append(ws_knob)
+
             for ws in work_sheets:
                 ws.cell(1, 1).value = "WEEK NO:"
                 ws.cell(1, 1).font = Font(bold=True)
