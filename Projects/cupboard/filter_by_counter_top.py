@@ -8,17 +8,11 @@ def xl_filter(user_xl_file, template):
     maximum_row = active_sheet.max_row
     maximum_column = active_sheet.max_column
     """Head write"""
-    template_sheet["C1"] = active_sheet["C1"].value
-    template_sheet["C30"] = active_sheet["C30"].value
-    template_sheet["H1"] = active_sheet["H1"].value
-    template_sheet["H30"] = active_sheet["H30"].value
-    template_sheet["X1"] = active_sheet["X1"].value
-    template_sheet["X30"] = active_sheet["X30"].value
-    template_sheet["AC1"] = active_sheet["AC1"].value
-    template_sheet["AC30"] = active_sheet["AC30"].value
-    template_sheet["AG1"] = active_sheet["AG1"].value
-    template_sheet["AG30"] = active_sheet["AG30"].value
-    
+    counter_cell_map = ['C1', 'C30', 'H1', 'H30', 'X1', 'X30', 'AC1', 'AC30', 'AG1', 'AG30']
+ 
+    for cell in counter_cell_map:
+        template_sheet[cell] = active_sheet[cell].value
+
     """Write counter top order details"""
     row_num = []
     i = 6
@@ -66,13 +60,3 @@ if __name__ == "__main__":
     user_xl_file = openpyxl.load_workbook(filename= sys.argv[1], data_only=True)
     template = openpyxl.load_workbook(filename=sys.argv[2])
     xl_filter(user_xl_file, template)
-
-    
-
-
-    
-       
-        
-
-    
-
