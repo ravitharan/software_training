@@ -1,6 +1,9 @@
 import openpyxl # THIS MODULE TO HANDLE xl FILES
 from openpyxl.utils import get_column_letter
+from openpyxl.utils import column_index_from_string
 import sys
+
+TEMPLATE_FILE = "ct_template.xlsx"
 
 def xl_filter(user_xl_file, template):
     active_sheet = user_xl_file["Main Sheet"]
@@ -8,43 +11,39 @@ def xl_filter(user_xl_file, template):
     maximum_row = active_sheet.max_row
     maximum_column = active_sheet.max_column
 
-    row_num = []
-    i = 6
-    add = 1
-    while i < maximum_row:
-        if add % 9 != 0:
-            row_num.append(i)
-            i += 3
-        else:
-            i += 5
-        add += 1
+    template_row  = 6
+    ct_count      = 0
 
     for row in range(1, maximum_row + 1):
         """Header write"""
         if isinstance(active_sheet.cell(row, 1).value, str):
             if  "DATE ISSUE:" in active_sheet.cell(row, 1).value:
-                column_num = [3, 8, 12, 13, 15, 21, 24, 33, 40]
-                for column in column_num:
-                    if column != 40:
+                header_columns = ['C', 'H', 'L', 'M', 'O', 'X', 'AC', 'AG', 'AN']
+                for col_name in header_columns:
+                    column = column_index_from_string(col_name)
+                    if col_name != 'AN':
                         template_sheet.cell(row, column).value = active_sheet.cell(row, column).value
                     else:
                         template_sheet.cell(row+1, column).value = active_sheet.cell(row+1, column).value
         """Write counter top existing row"""
-        if active_sheet.cell(row, 30).value != None and isinstance(active_sheet.cell(row, 5).value, int):
-            row_memory = row_num[0]
+        if active_sheet.cell(row, column_index_from_string('AD')).value and isinstance(active_sheet.cell(row, column_index_from_string('E')).value, int):
             for row_read in range(row , row+3):
                 for column in range(1, maximum_column+1):
                     if active_sheet.cell(row_read, column).value != None:
-                        template_sheet.cell(row_memory, column).value = active_sheet.cell(row_read, column).value
-                row_memory += 1
+                        template_sheet.cell(template_row, column).value = active_sheet.cell(row_read, column).value
+                template_row += 1
+            ct_count += 1
 
-            del row_num[0]
-    template.save("ct_template.xlsx")
+            if (ct_count == 8):
+                ct_count = 0
+                template_row += 5
+
+    template.save("ct_output.xlsx")
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print(f'Argument error\nUsage: {sys.argv[0]} <user_excel_file> <template>')
+    if len(sys.argv) != 2:
+        print(f'Argument error\nUsage: {sys.argv[0]} <user_excel_file>')
         exit(1)
     user_xl_file = openpyxl.load_workbook(filename= sys.argv[1], data_only=True)
-    template = openpyxl.load_workbook(filename=sys.argv[2])
+    template = openpyxl.load_workbook(filename=TEMPLATE_FILE)
     xl_filter(user_xl_file, template)
