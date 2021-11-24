@@ -6,9 +6,11 @@ from write_order_parts import *
 from counter_top import *
 from Hardware_Details import *
 from label import *
+from filter_by_counter_top import *
 
 OUTPUT_FILE     = "output.xlsx"
 BIG_LABEL_FILE  = "big_label.xlsx"
+CT_ORDER_FILE   = "counter_top_orders.xlsx"
 
 if __name__ == '__main__':
 
@@ -64,8 +66,6 @@ if __name__ == '__main__':
             Hardware_Details_Write(ws_knob, START_ROW, knob_details)
             work_sheets.append(ws_knob)
 
-            wb_label_out = write_big_labels(wb_in)
-
             for ws in work_sheets:
                 ws.cell(1, 1).value = "WEEK NO:"
                 ws.cell(1, 1).font = Font(bold=True)
@@ -75,9 +75,16 @@ if __name__ == '__main__':
                 ws.cell(1, 2).alignment = Alignment(horizontal="center")
 
             wb_out.save(output_file)
+
+            wb_label_out = write_big_labels(wb_in)
             label_file = os.path.join(dst_path, BIG_LABEL_FILE)
             wb_label_out.save(label_file)
             return_value = "pass"
+
+            ct_order = xl_filter(wb_in)
+            ct_order_file = os.path.join(dst_path, CT_ORDER_FILE)
+            ct_order.save(ct_order_file)
+
             break
         elif event == 'Cancel' or event == sg.WIN_CLOSED: # if user closes window or clicks cancel
             break
@@ -85,4 +92,4 @@ if __name__ == '__main__':
     window.close()
 
     if return_value == "pass":
-        sg.popup(f'\nOutput saved into {dst_path}  \nFiles:\n{OUTPUT_FILE}\n{BIG_LABEL_FILE} \n', title="output file")
+        sg.popup(f'\nOutput saved into {dst_path}  \nFiles:\n{OUTPUT_FILE}\n{BIG_LABEL_FILE}\n{CT_ORDER_FILE} \n', title="output file")
