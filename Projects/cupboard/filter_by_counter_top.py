@@ -5,8 +5,9 @@ import sys
 
 TEMPLATE_FILE = "ct_template.xlsx"
 
-def xl_filter(user_xl_file, template):
-    active_sheet = user_xl_file["Main Sheet"]
+def xl_filter(order_wb):
+    active_sheet = order_wb["Main Sheet"]
+    template = openpyxl.load_workbook(filename=TEMPLATE_FILE)
     template_sheet = template["Main Sheet"]
     maximum_row = active_sheet.max_row
     maximum_column = active_sheet.max_column
@@ -38,12 +39,12 @@ def xl_filter(user_xl_file, template):
                 ct_count = 0
                 template_row += 5
 
-    template.save("ct_output.xlsx")
+    return template
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print(f'Argument error\nUsage: {sys.argv[0]} <user_excel_file>')
         exit(1)
     user_xl_file = openpyxl.load_workbook(filename= sys.argv[1], data_only=True)
-    template = openpyxl.load_workbook(filename=TEMPLATE_FILE)
-    xl_filter(user_xl_file, template)
+    wb_out = xl_filter(user_xl_file)
+    wb_out.save("ct_output.xlsx")
