@@ -6,7 +6,7 @@ from openpyxl.utils import *
 import re
 import sys
 
-BIG_LABEL_TEMPLATE = "template.xlsx"
+BIG_LABEL_TEMPLATE = "big_label_template.xlsx"
 
 def get_vanity_info_cupboard_name(wb):
     """
