@@ -1,0 +1,291 @@
+IDENTITY:
+  config_version
+  mgu_id
+  inv_id
+
+RSLV_OFFSETS:
+  mgu_1
+  mgu_2
+  mgu_3
+  mgu_4
+  mgu_5
+  mgu_6
+  mgu_7
+  mgu_8
+  mgu_9
+  mgu_10
+  mgu_11
+  mgu_12
+  mgu_13
+  mgu_14
+  mgu_15
+  mgu_16
+  mgu_17
+  mgu_18
+  mgu_19
+  mgu_20
+  mgu_21
+  mgu_22
+  mgu_23
+  mgu_24
+  mgu_25
+  mgu_26
+  mgu_27
+  mgu_28
+  mgu_29
+  mgu_30
+  mgu_31
+  mgu_32
+
+IDC_ADC_OFFSETS:
+  inv_1
+  inv_2
+  inv_3
+  inv_4
+  inv_5
+  inv_6
+  inv_7
+  inv_8
+  inv_9
+  inv_10
+  inv_11
+  inv_12
+  inv_13
+  inv_14
+  inv_15
+  inv_16
+  inv_17
+  inv_18
+  inv_19
+  inv_20
+  inv_21
+  inv_22
+  inv_23
+  inv_24
+  inv_25
+  inv_26
+  inv_27
+  inv_28
+  inv_29
+  inv_30
+  inv_31
+  inv_32
+
+VDC_ADC_OFFSETS:
+  inv_1
+  inv_2
+  inv_3
+  inv_4
+  inv_5
+  inv_6
+  inv_7
+  inv_8
+  inv_9
+  inv_10
+  inv_11
+  inv_12
+  inv_13
+  inv_14
+  inv_15
+  inv_16
+  inv_17
+  inv_18
+  inv_19
+  inv_20
+  inv_21
+  inv_22
+  inv_23
+  inv_24
+  inv_25
+  inv_26
+  inv_27
+  inv_28
+  inv_29
+  inv_30
+  inv_31
+  inv_32
+
+MGU:
+  Ld
+  Lq
+  phi
+  lambdaa
+  Rs
+  kTMagnet
+  refTemp
+
+INV:
+  DTt
+  DTC_mode
+  vdc_ADC_gain
+  idc_ADC_gain
+  A_Vph_Gain
+  B_Vph_Gain
+  C_Vph_Gain
+  Vp1
+  Vp2
+  psmon_supply
+
+TORQUE_SPEED:
+  torque_max
+  torque_min
+  power_max
+  power_min
+  speed_max
+  speed_min
+  speed_1
+  torque_1
+  speed_2
+  torque_2
+  kp
+  ki
+  torque_rate_limit
+  speed_limit
+  spd_kp_braking
+  spd_ki_braking
+  spd_output_mode
+  is_enable_TrqVsW
+  speed_iir_type
+
+MOTOR_CONTROL:
+  pole_pairs
+  d_Kp
+  d_Ki
+  q_Kp
+  q_Ki
+  d_max
+  d_min
+  q_max
+  q_min
+  d_Int_max
+  d_Int_min
+  q_Int_max
+  q_Int_min
+  fSwitching
+  speed_th_center
+  hysteresis_half_width
+  pwm_switch_mode
+  avg_sample_start_ratio_up
+  avg_sample_stop_ratio_up
+  avg_sample_start_ratio_down
+  avg_sample_stop_ratio_down
+  sample_angle_ratio_up
+  sample_angle_ratio_down
+  sample_angle_offset_in_pl_cnts
+  vdc_iir_type
+  idc_iir_type
+  iphase_iir_type
+
+HARMONIC_CONTROL:
+  phi_fivth_traction
+  phi_fivth_regen
+  angle_fivth_traction
+  angle_fivth_regen
+
+FIELD_WEAKENING:
+  minId
+  M
+  fw_VsLim_factor
+  fw_kp
+  fw_ki
+  fw_cur_limit_soft
+
+POWER_CONTROL:
+  Pdc_kp
+  Pdc_ki
+  Pdc_FF_mech
+  Pdc_kp_regen
+  Pdc_ki_regen
+  Pdc_FF_mech_regen
+  Pdc_control_cycle_num
+  Pdc_PBP_FW_demand_or_delivered
+  Pdc_int_min
+  Pdc_int_max
+  Pdc_FF_torque_min
+  BP_power_limit
+  BP_power_margin
+  BP_power_filter
+  We_filter_c
+  speed_max_Iq_cut
+  pdc_iir_type
+
+OSCILATION_DAMPER:
+  osc_filt_a
+  osc_filt_b
+  osc_filt_c
+  osc_filt_KpP
+  osc_filt_KpT
+  osc_limit_P
+  osc_limit_T
+  osc_filt_cycle_num
+
+PL_FAULT_LIMIT:
+  PWM_off_in_us
+  shut_down_in_ms
+  Iabc_ADC_max
+  Izero_in_Iabc_ADC_max
+  Idc_ADC_max
+  Idc_ADC_min
+  Vdc_ADC_max
+  Vdc_ADC_min
+  resolver_freq_scaled_max
+  resolver_freq_scaled_min_ABS
+  Iabc_filt_max
+  EMF_at_full_speed
+  iir_type_fault_iabc
+  iir_type_fault_izero
+  iir_type_fault_idc
+  iir_type_fault_vdc
+  iir_type_fault_resolver_freq
+  iir_type_fault_iabc_filt
+  iir_type_fault_pdc
+  check_pos_glitch
+  max_speed_change_in_isr
+  glitch_iir_type_speed
+  resolver_freq_glitch_th
+
+PL_FALUT_MASK:
+  GD
+  GD_PhA
+  GD_PhB
+  GD_PhC
+  Ia_Non_Filt
+  Ib_Non_Filt
+  Ic_Non_Filt
+  Izero
+  Idc
+  Vdc
+  resolver_LOT
+  resolver_DOS
+  speed
+  Ia_Filt
+  Ib_Filt
+  Ic_Filt
+
+R5_FAULT_LIMIT:
+  Iabc
+  Pdc
+  Idc
+  Vdc
+  Vd_int
+  Vq_int
+  w_shaft_freq
+  Trq
+  Temp_module
+  Temp_cap
+  Temp_terminal
+  Temp_end_wdg
+  Temp_CPU
+  Temp_DE_bearing
+  Temp_NDE_bearing
+  fw_estop_time_ms
+
+R5_FAULT_MASK:
+  Iabc
+  Pdc
+  Idc
+  Vdc
+  Vdq_int
+  w_shaft_freq
+  Trq
+  Temps
