@@ -79,16 +79,14 @@ def version_file_write(ver20_data_dict):
                     version_file.write(value[0])
                     version_file.write(((40 - len(value[0]))* " "))
                     version_file.write("=  ")
-                    version_file.write('\n')
-                    
+                    version_file.write('\n')   
                 elif len(value) == 2:
                     version_file.write("  ")
                     version_file.write(value[0])
                     version_file.write(((40 - len(value[0]))* " "))
                     version_file.write("=  ")
                     version_file.write(value[1])
-                    version_file.write('\n')
-                    
+                    version_file.write('\n')       
                 else:
                     version_file.write('\n')            
     version_file.close()
