@@ -1,0 +1,192 @@
+MGU:
+  res_mech_offset_in_u16         = 52360
+  Ld                             = 9.000e-05
+  Lq                             = 7.000e-05
+  phi                            = 5.663e-02
+  pole_pairs                     = 5
+  lambdaa                        = 5.663e-02
+  phi_fivth_traction             = 4.000e-03
+  phi_fivth_regen                = 0.000e+00
+  angle_fivth_traction           = 0.000e+00
+  Rs                             = 5.000e-03
+  kTMagnet                       = 9.500e-04
+  refTemp                        = 3.000e+01
+  minId                          = -5.000e+02
+
+dq_PI_cnt:
+  d_Kp                           = 5.500e-01
+  d_Ki                           = 4.000e+02
+  q_Kp                           = 4.500e-01
+  q_Ki                           = 4.000e+02
+  d_max                          = 1.500e+02
+  d_min                          = -1.500e+02
+  q_max                          = 1.500e+02
+  q_min                          = -1.500e+02
+  d_Int_max                      = 1.000e+02
+  d_Int_min                      = -1.000e+02
+  q_Int_max                      = 1.000e+02
+  q_Int_min                      = -1.000e+02
+
+ts:
+  torque_max                     = 2.800e+02
+  torque_min                     = -2.500e+02
+  power_max                      = 2.700e+05
+  power_min                      = -2.800e+05
+  speed_max                      = 2.524e+03
+  speed_min                      = -8.378e+02
+
+spd_ctrl:
+  kp                             = 1.000e+00
+  ki                             = 1.000e+02
+  torque_rate_limit              = 6.000e+04
+  speed_limit                    = 2.409e+03
+
+r5_fl:
+  Iabc                           = 9.500e+02
+  Pdc                            = 2.500e+05
+  Idc                            = 6.000e+02
+  Vdc                            = 9.200e+02
+  Vd_int                         = 9.900e+01
+  Vq_int                         = 9.900e+01
+  w_shaft_freq                   = 2.534e+03
+  Trq                            = 3.500e+02
+  Temp_module                    = 1.000e+02
+  Temp_cap                       = 2.550e+02
+  Temp_terminal                  = 2.550e+02
+  Temp_end_wdg                   = 2.550e+02
+  Temp_CPU                       = 2.550e+02
+  Temp_DE_bearing                = 2.550e+02
+  Temp_NDE_bearing               = 2.550e+02
+
+r5_fm:
+  Iabc                           = 1
+  Pdc                            = 0
+  Idc                            = 1
+  Vdc                            = 1
+  Vdq_int                        = 0
+  w_shaft_freq                   = 0
+  Trq                            = 1
+  Temps                          = 1
+
+PL_fl:
+  PWM_off_in_us                  = 1
+  shut_down_in_ms                = 10
+  Iabc_ADC_max                   = 15360
+  Izero_in_Iabc_ADC_max          = 3641
+  Idc_ADC_max                    = 25224
+  Idc_ADC_min                    = 25224
+  Vdc_ADC_max                    = 26073
+  Vdc_ADC_min                    = 26073
+  resolver_freq_scaled_max       = 28946
+  resolver_freq_scaled_min_ABS   = 9284
+  Iabc_filt_max                  = 14976
+  EMF_at_full_speed              = 1100
+
+PL_fm:
+  GD                             = 1
+  GD_PhA                         = 1
+  GD_PhB                         = 1
+  GD_PhC                         = 1
+  Ia_Non_Filt                    = 1
+  Ib_Non_Filt                    = 1
+  Ic_Non_Filt                    = 1
+  Izero                          = 0
+  Idc                            = 1
+  Vdc                            = 1
+  resolver_LOT                   = 0
+  resolver_DOS                   = 0
+  speed                          = 0
+  Ia_Filt                        = 0
+  Ib_Filt                        = 0
+  Ic_Filt                        = 0
+
+INV:
+  M                              = 1.000e+00
+  A_Vph_Gain                     = 9.685e-01
+  B_Vph_Gain                     = 9.685e-01
+  C_Vph_Gain                     = 9.685e-01
+  Vp1                            = -1.896e-08
+  Vp2                            = -3.480e-10
+  fSwitching                     = 16000
+  avg_sample_start_ratio_up      = 32
+  avg_sample_stop_ratio_up       = 224
+  avg_sample_start_ratio_down    = 224
+  avg_sample_stop_ratio_down     = 32
+  sample_angle_ratio_up          = 128
+  sample_angle_ratio_down        = 128
+  sample_angle_offset_in_pl_cnts = 0
+  pdc_iir_type                   = 2
+  speed_iir_type                 = 0
+  vdc_iir_type                   = 0
+  idc_iir_type                   = 0
+  iphase_iir_type                = 0
+  idc_ADC_offset_to_add          = 22
+  vdc_ADC_offset_to_add          = -21
+  fw_VsLim_factor                = 1.000e+00
+  fw_kp                          = 2.000e+00
+  fw_ki                          = 4.000e+02
+  idc_ADC_gain                   = 2.577e-02
+  vdc_ADC_gain                   = 3.678e-02
+  is_enable_TrqVsW               = 1.000e+00
+  psmon_supply                   = 0.000e+00
+  fw_cur_limit_soft              = 8.500e+02
+  glitch_iir_type_speed          = 10
+  resolver_freq_glitch_th        = 20
+  pwm_switch_mode                = 0
+
+out:
+  Pdc_kp                         = 1.000e-03
+  Pdc_ki                         = 1.000e+00
+  Pdc_FF_mech                    = 9.500e-01
+  Pdc_control_cycle_num          = 3.000e+00
+  Pdc_PBP_FW_demand_or_delivered = 1.000e+00
+  iir_type_fault_iabc            = 14
+  iir_type_fault_izero           = 14
+  iir_type_fault_idc             = 14
+  iir_type_fault_vdc             = 14
+  iir_type_fault_resolver_freq   = 10
+  iir_type_fault_iabc_filt       = 14
+  iir_type_fault_pdc             = 14
+  speed_1                        = 0.000e+00
+  torque_1                       = 0.000e+00
+  speed_2                        = 0.000e+00
+  torque_2                       = 0.000e+00
+  fw_estop_time_ms               = 3.000e+02
+  speed_th_center                = 1.420e+04
+  hysteresis_half_width          = 1.000e+03
+  check_pos_glitch               = 0.000e+00
+  max_speed_change_in_isr        = 0.000e+00
+  speed_max_Iq_cut               = 0.000e+00
+
+misc:
+  config_version                 = 8
+  mgu_id                         = 6
+  inv_id                         = 6
+  osc_filt_a                     = 0.000e+00
+  osc_filt_b                     = 0.000e+00
+  osc_filt_c                     = 0.000e+00
+  osc_filt_KpP                   = 0.000e+00
+  osc_filt_KpT                   = 0.000e+00
+  osc_limit_P                    = 0.000e+00
+  osc_limit_T                    = 0.000e+00
+  osc_filt_cycle_num             = 0
+  spd_kp_braking                 = 0.000e+00
+  spd_ki_braking                 = 0.000e+00
+  spd_output_mode                = 0
+  BP_power_limit                 = 0.000e+00
+  BP_power_margin                = 0.000e+00
+  BP_power_filter                = 1.000e+00
+  Pdc_int_min                    = 0.000e+00
+  Pdc_int_max                    = 0.000e+00
+  Pdc_FF_torque_min              = 0.000e+00
+  We_filter_c                    = 0.000e+00
+
+ph_struct_1:
+  Pdc_kp_regen                   = 0.000e+00
+  Pdc_ki_regen                   = 0.000e+00
+  angle_fivth_regen              = 0.000e+00
+  DTC_mode                       = 0
+  DTt                            = 0.000e+00
+  Pdc_FF_mech_regen              = 0.000e+00
+
+
