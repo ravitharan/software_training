@@ -24,7 +24,7 @@ if __name__ == '__main__':
     ]
 
     # Create the Window
-    window = sg.Window('Vanity parts order v3.0', layout)
+    window = sg.Window('Vanity parts order v4.0', layout)
 
     # Event Loop to process "events" and get the "values" of the inputs
     return_value = "cancel"
