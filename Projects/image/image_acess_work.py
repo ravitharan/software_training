@@ -1,7 +1,9 @@
 from PIL import Image
+from PIL import Image, ExifTags
 from PIL.ExifTags import TAGS
 import os
 import shutil
+from matplotlib import pyplot
 
 image_folder_name = input("Enter your image folder name:")
 image_folder_name = image_folder_name.strip()
@@ -9,15 +11,16 @@ image_folder_name = image_folder_name.strip()
 EXTENSIONS = ['.JPG','.jpg','.JPEG','.jpeg','.png','.PNG']
 
 def get_file_list(root_dir,E):
+    
     file_list = []
     counter = 1
-    dirName = 'Collection Images'
+    New_folder = 'Collection Images'
     try:
         # Create target Directory
-        os.mkdir(dirName)
-        print("Directory " , dirName ,  " Created ") 
+        os.mkdir(New_folder)
+        print("Directory " , New_folder ,  " Created ") 
     except FileExistsError:
-        print("Directory " , dirName ,  " already exists")
+        print("Directory " , New_folder ,  " already exists")
         
     folder_path = os.getcwd()
     collection_images_path = folder_path + "\\" + 'Collection Images'
@@ -29,17 +32,27 @@ def get_file_list(root_dir,E):
                 counter += 1
                 
     for file_path in file_list:
-        imge_path = (folder_path + file_path)
-        shutil.copy(imge_path, collection_images_path)
         image = Image.open(file_path)
+        
+        width,height = image.size
+        new_width = (width//2)
+        new_height = (height//2)
+        resized_image = image.resize((new_width,new_height))
+        
+        file_path = file_path.replace("./","")
+        file_path = (os.path.split(file_path)[-1])
+        imge_path = (collection_images_path + "\\" + file_path)
+        resized_image.save(imge_path,quality = 45)
+        
         exifdata = image.getexif()
-        #print(file_path)
-        for tagid in exifdata:   
-            tagname = TAGS.get(tagid, tagid)
-            value = exifdata.get(tagid)
-            print(f"{tagname:25}: {value}")
-    return file_list
+        if exifdata is None:
+            print('Sorry, image has no exif data.') 
+        else:
+            print("yes............................................................")
+            for key, value in exifdata.items():
+                if key in ExifTags.TAGS:
+                    print(f'{ExifTags.TAGS[key]}:{value}')
+             
+    return file_list , New_folder
 
-file_list = get_file_list('./'+ image_folder_name,EXTENSIONS)
-
- 
+file_list,New_folder = get_file_list('./'+ image_folder_name,EXTENSIONS)
