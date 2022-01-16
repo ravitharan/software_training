@@ -46,8 +46,12 @@ def split_parts_details(parts_description):
         size_name_entries = re.compile('([a-wyzA-WYZ].+)').split(size_name)
         while '' in size_name_entries:               # Remove blank entry
             size_name_entries.remove('')
-        parts.append([count, size_name_entries[0].strip(), size_name_entries[1].strip()])
-
+        if size_name_entries[1].strip() != 'CLASSIC KICK':
+            if size_name_entries[1].strip() == 'MOULDING':
+                parts.append([count, size_name_entries[0].strip(), size_name_entries[1].strip()+" & CLASSIC KICK"])
+            else:
+                parts.append([count, size_name_entries[0].strip(), size_name_entries[1].strip()])
+         
     return parts
 
 def get_cupboard_list(wb):
@@ -66,6 +70,7 @@ def get_cupboard_list(wb):
             description = clean_description(value_D)
             parts_list = split_parts_details(description)
             cupboard_parts[value_C] = parts_list
+        
     return cupboard_parts
 
 if __name__ == "__main__":
@@ -74,10 +79,10 @@ if __name__ == "__main__":
         exit(1)
 
     excel_file = sys.argv[1]
-    wb = openpyxl.load_workbook(excel_file)
+    wb = openpyxl.load_workbook(excel_file, data_only=True)
     cupboard_parts = get_cupboard_list(wb)
-    for key in cupboard_parts:
+    """for key in cupboard_parts:
         print(key , " ")
         for parts in cupboard_parts[key]:
-            print(parts)
+            print(parts)"""
 
