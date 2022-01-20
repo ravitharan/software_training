@@ -71,8 +71,9 @@ def cupboard_data_write(wb_r, ws, cupboard_names):
             ]
 
     for row_order in range(1, ws_r.max_row+1):
+        order_no  = ws_r["C" + str(row_order)].value
         cupboard_id  = ws_r["E" + str(row_order)].value
-        if isinstance(cupboard_id, int):
+        if (isinstance(cupboard_id, int) or (('w' in str(cupboard_id)) or ('W' in str(cupboard_id)))) and (bool(re.search(r'\d',str(order_no)))) :
             label_count += 1
             if (label_count == 1):
                 row_label = 1
@@ -97,13 +98,17 @@ def cupboard_data_write(wb_r, ws, cupboard_names):
                     dst_cell = add_row(dst, row_label - 1)
                     src_cell = add_row(src, row_order - 6)
                     ws[dst_cell].value = ws_r[src_cell].value
-                
-            dst_cell = add_row('B10', row_label - 1)
-            cupboard_info = cupboard_names[cupboard_id]
-            ws[dst_cell].value = cupboard_info
-             
-            dst_cell = add_row('A9', row_label - 1)
-            ws[dst_cell].value = '[1]'
+                    
+            if ('w' in str(cupboard_id)) or ('W' in str(cupboard_id)):
+                continue
+            
+            else:
+                dst_cell = add_row('B10', row_label - 1)
+                cupboard_info = cupboard_names[cupboard_id]
+                ws[dst_cell].value = cupboard_info
+                 
+                dst_cell = add_row('A9', row_label - 1)
+                ws[dst_cell].value = '[1]'
              
      
 
@@ -132,9 +137,9 @@ def framed_mirror_data_write(wb_r, ws):
                             ]
 
     for row_order in range(1, ws_r.max_row+1):
-        cupboard_id  = ws_r["C" + str(row_order)].value
+        order_no  = ws_r["C" + str(row_order)].value
         framed_mirror  = ws_r["M" + str(row_order)].value
-        if (type(cupboard_id) == str or type(cupboard_id) == int) and framed_mirror and bool(re.search(r'\d',str(cupboard_id))):
+        if (type(order_no) == str or type(order_no) == int) and framed_mirror and bool(re.search(r'\d',str(order_no))):
             label_count += 1
             if (label_count == 1):
                 row_label = 1
@@ -188,9 +193,9 @@ def valance_data_write(wb_r, ws, valances):
                             ]
 
     for row_order in range(1, ws_r.max_row+1):
-        cupboard_id  = ws_r["E" + str(row_order)].value
+        order_no = ws_r["E" + str(row_order)].value
         valance  = ws_r["J" + str(row_order)].value
-        if isinstance(cupboard_id, int) and valance:
+        if (type(order_no) == str or type(order_no) == int) and valance and bool(re.search(r'\d',str(order_no))):
             label_count += 1
             if (label_count == 1):
                 row_label = 1
@@ -258,9 +263,9 @@ def counter_top_data_write(wb_r, ws_template):
                             ]
 
     for row_order in range(1, ws_r.max_row+1):
-        cupboard_id  = ws_r["E" + str(row_order)].value
+        #size  = ws_r["AF" + str(row_order)].value
         order_number  = ws_r["AD" + str(row_order)].value  
-        if isinstance(cupboard_id, int) and order_number != None:
+        if (type(order_number) == int) or bool(re.search(r'\d',str(order_number))):
             label_count += 1
             if (label_count == 1):
                 row_label = 1
