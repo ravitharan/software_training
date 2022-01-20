@@ -12,7 +12,10 @@ def get_order_list(wb, cupboard_parts):
     ordered_parts = []
     for row in range(1, ws.max_row+1):
         cupboard = ws.cell(row,5).value
-        if(isinstance(cupboard,int)):
+        if ('w' in str(cupboard)) or ('W' in str(cupboard)):
+            continue
+            
+        elif(isinstance(cupboard,int)):
             material = ws.cell(row,8).value.strip()
             style = ws.cell(row,7).value.strip()
             color = ws.cell(row,9).value.strip()
