@@ -2,6 +2,7 @@ import openpyxl # THIS MODULE TO HANDLE xl FILES
 from openpyxl.utils import get_column_letter
 from openpyxl.utils import column_index_from_string
 import sys
+import re
 
 TEMPLATE_FILE = "ct_template.xlsx"
 
@@ -27,7 +28,7 @@ def xl_filter(order_wb):
                     else:
                         template_sheet.cell(row+1, column).value = active_sheet.cell(row+1, column).value
         """Write counter top existing row"""
-        if active_sheet.cell(row, column_index_from_string('AD')).value and isinstance(active_sheet.cell(row, column_index_from_string('E')).value, int):
+        if bool(re.search(r'\d', str(active_sheet.cell(row, column_index_from_string('AD')).value))):
             for row_read in range(row , row+3):
                 for column in range(1, maximum_column+1):
                     if active_sheet.cell(row_read, column).value != None:
