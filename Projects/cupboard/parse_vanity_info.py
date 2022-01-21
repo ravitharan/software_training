@@ -46,7 +46,11 @@ def split_parts_details(parts_description):
         size_name_entries = re.compile('([a-wyzA-WYZ].+)').split(size_name)
         while '' in size_name_entries:               # Remove blank entry
             size_name_entries.remove('')
-        parts.append([count, size_name_entries[0].strip(), size_name_entries[1].strip()])
+        if size_name_entries[1].strip() != 'CLASSIC KICK':
+            if size_name_entries[1].strip() == 'MOULDING'or size_name_entries[1].strip() == "TOWER MOULDING" or size_name_entries[1].strip() == "DOOR MOULDING":
+                parts.append([count, size_name_entries[0].strip(), 'MOULDING'+" & CLASSIC KICK"])
+            else:
+                parts.append([count, size_name_entries[0].strip(), size_name_entries[1].strip()])
 
     return parts
 
@@ -66,6 +70,7 @@ def get_cupboard_list(wb):
             description = clean_description(value_D)
             parts_list = split_parts_details(description)
             cupboard_parts[value_C] = parts_list
+            
     return cupboard_parts
 
 if __name__ == "__main__":
