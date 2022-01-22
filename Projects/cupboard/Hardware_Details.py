@@ -7,6 +7,7 @@ from openpyxl.utils import get_column_letter
 SHEET_KNOB_COUNT        = "KNOB COUNT"
 CUPBOARD_ID_COLUMN      = "E"
 HARDWARE_ITEM_COLUMN    = "L"
+ORDER_NUMBER            = "C"
 
 def hardware_data(wb):
     current_sheet = wb["Main Sheet"]
@@ -14,7 +15,8 @@ def hardware_data(wb):
     hardware_count_items = []
     for x in range(1 , maximum_row + 1):
         cupboard_id = current_sheet[CUPBOARD_ID_COLUMN + str(x)].value
-        if type(cupboard_id) == int:
+        order_no  = current_sheet[ORDER_NUMBER + str(x)].value
+        if (isinstance(cupboard_id, int) or (('w' in str(cupboard_id)) or ('W' in str(cupboard_id)))) and (bool(re.search(r'\d',str(order_no)))) :
             count_items = []
             c = x + 2
             hardware_count  = current_sheet[HARDWARE_ITEM_COLUMN + str(c)].value
@@ -27,16 +29,19 @@ def hardware_data(wb):
                 #Remove "DR-"
                 if hardware_door:
                     hardware_door = hardware_door[3:]
-
+                     
                 hardware_drawer = current_sheet[HARDWARE_ITEM_COLUMN + str(x+1)].value
+                 
                 #Remove "DW-"
                 if hardware_drawer:
                     hardware_drawer = hardware_drawer[3:]
 
-                hardware_count_items.append([count_items[0], hardware_door]) 
+                if hardware_door:
+                    hardware_count_items.append([count_items[0], hardware_door])
+                    
                 if len(count_items) == 2:
                     hardware_count_items.append([count_items[1], hardware_drawer]) 
-                
+                     
     return hardware_count_items
  
 def hardware_add_count(hardware_count_item):
@@ -51,7 +56,7 @@ def hardware_add_count(hardware_count_item):
             if list_item[1] == set_item:
                 total += list_item[0]
         hardware_count_Dict[set_item] = total
-    
+     
     return hardware_count_Dict
 
 def Hardware_Details_Write(ws, start_row, hardware_count_Dict_data):
