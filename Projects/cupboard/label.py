@@ -97,9 +97,8 @@ def cupboard_data_write(wb_r, ws, cupboard_names):
                 else:
                     dst_cell = add_row(dst, row_label - 1)
                     src_cell = add_row(src, row_order - 6)
-                    #print(f'dst {dst_cell}, src {src_cell}')
                     ws[dst_cell].value = ws_r[src_cell].value
-
+                    
             if ('w' in str(cupboard_id)) or ('W' in str(cupboard_id)):
                 continue
             
@@ -107,10 +106,10 @@ def cupboard_data_write(wb_r, ws, cupboard_names):
                 dst_cell = add_row('B10', row_label - 1)
                 cupboard_info = cupboard_names[cupboard_id]
                 ws[dst_cell].value = cupboard_info
-
+                 
                 dst_cell = add_row('A9', row_label - 1)
                 ws[dst_cell].value = '[1]'
-
+             
      
 
 def framed_mirror_data_write(wb_r, ws):
@@ -151,7 +150,7 @@ def framed_mirror_data_write(wb_r, ws):
                 
             #image insertion
             img = drawing.image.Image('logo_small.png')
-#            img.height=130
+#            img.height=130      
 #            img.width=200
             img.anchor = 'J'+str(row_label)
             ws.add_image(img)
@@ -167,11 +166,9 @@ def framed_mirror_data_write(wb_r, ws):
                     ws[dst_cell].value = src_cell
                 else:
                     dst_cell = add_row(dst, row_label - 1)
-                    src_cell = add_row(src, row_order - 6)
-                    #print(f'dst {dst_cell}, src {src_cell}')
+                    src_cell = add_row(src, row_order - 6) 
                     ws[dst_cell].value = ws_r[src_cell].value
-     
-
+                
 def valance_data_write(wb_r, ws, valances):
     """
     Main sheet data write in to tha Label tamplate
@@ -218,6 +215,11 @@ def valance_data_write(wb_r, ws, valances):
                 if dst == 'Y4':
                     dst_cell = add_row(dst, row_label - 1)
                     src_cell = ws_r["H1"].value
+                    ws[dst_cell].value = src_cell
+                    
+                elif dst == 'T10':
+                    dst_cell = add_row(dst, row_label - 1)
+                    src_cell = ws_r["J3"].value
                     ws[dst_cell].value = src_cell
                 else:
                     dst_cell = add_row(dst, row_label - 1)
@@ -266,6 +268,7 @@ def counter_top_data_write(wb_r, ws_template):
                             ]
 
     for row_order in range(1, ws_r.max_row+1):
+        #size  = ws_r["AF" + str(row_order)].value
         order_number  = ws_r["AD" + str(row_order)].value  
         if (type(order_number) == int) or bool(re.search(r'\d',str(order_number))):
             label_count += 1
