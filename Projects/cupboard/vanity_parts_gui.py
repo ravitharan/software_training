@@ -51,11 +51,11 @@ if __name__ == '__main__':
             adjust_column_width(work_sheets)
 
             # counter top
-            counter_tops, sizes, colors, counts = get_counter_tops(wb_in)
-            details =  get_countertop_details(counter_tops, sizes, colors)
+            counter_tops, sizes, colors, counts, counter_tops_sink, size_sink, sink_colors = get_counter_tops(wb_in)
+            details, sink_details =  get_countertop_details(counter_tops, sizes, colors, counter_tops_sink, size_sink)
             wb_out.create_sheet(SHEET_COUNTER_TOP)
             ws_ct = wb_out[SHEET_COUNTER_TOP]
-            write_counter_top(ws_ct, START_ROW, details, sizes, colors, counts)
+            write_counter_top(ws_ct, START_ROW, details, sizes, colors, counts, sink_colors, sink_details)
             work_sheets.append(ws_ct)
 
             # knob (hardware) details
