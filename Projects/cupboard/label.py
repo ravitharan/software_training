@@ -99,6 +99,9 @@ def cupboard_data_write(wb_r, ws, cupboard_names):
                     src_cell = add_row(src, row_order - 6)
                     ws[dst_cell].value = ws_r[src_cell].value
                     
+            dst_cell = add_row('A9', row_label - 1)
+            ws[dst_cell].value = '[1]'
+                    
             if ('w' in str(cupboard_id)) or ('W' in str(cupboard_id)):
                 continue
             
@@ -107,9 +110,9 @@ def cupboard_data_write(wb_r, ws, cupboard_names):
                 cupboard_info = cupboard_names[cupboard_id]
                 ws[dst_cell].value = cupboard_info
                  
-                dst_cell = add_row('A9', row_label - 1)
-                ws[dst_cell].value = '[1]'
              
+                
+            
      
 
 def framed_mirror_data_write(wb_r, ws):
@@ -256,6 +259,7 @@ def counter_top_data_write(wb_r, ws_template):
                             ('AH9','AG6'),
                             ('AB10','Y6'),
                             ('AC10','Y3'),
+                            ('AC11','AM6'),
                             ('AG10','AH3'),
                             ('AH10','AH6'),
                             ('AH11','AI6'),
@@ -286,15 +290,23 @@ def counter_top_data_write(wb_r, ws_template):
             img.anchor = 'AB'+str(1+row_label)
             ws_w.add_image(img)
             
-            add_list =[('AC10','Y3'),('AI5', 'H1'),('AG9','AG3'),('AG10','AH3'),('AG11','AI3'),('AG12','AK3'),('AG13','AJ3')]
+            add_list =[('AC10','Y3'),('AC11','AM6'),('AI5', 'H1'),('AG9','AG3'),('AG10','AH3'),('AG11','AI3'),('AG12','AK3'),('AG13','AJ3')]
             for (dst, src) in counter_top_label_cell_map:
                 for (r,w) in add_list:
-                    if dst == r:
+                    if dst == r: 
                         dst_cell = add_row(dst, row_label - 1)
                         src_cell = ws_r[w].value
-                        ws_w[dst_cell].value = src_cell
-                        break
-                 
+                         
+                        if (ws_w[dst_cell].value != None) and (r == 'AC11'):
+                            ws_w[dst_cell].value  = src_cell
+                            dst_cell = add_row('AE11', row_label - 1) 
+                            ws_w[dst_cell].value = 'SIDE SPLASH'
+                            dst_cell = add_row('AB11', row_label - 1)
+                            ws_w[dst_cell].value = '1'
+                            
+                        else:
+                            ws_w[dst_cell].value = src_cell
+                            break
                     else:
                         dst_cell = add_row(dst, row_label - 1)
                         src_cell = add_row(src, row_order - 6)
