@@ -139,22 +139,6 @@ def write_counter_top(ws, start_row, details, sizes, colors, sink_counts, sink_c
             ws.cell(row, i+2).alignment = Alignment(horizontal="center")
             ws.cell(row, i+2).border = border_style
 
-    #for i, col_width in enumerate(max_col_width):
-     #   ws.column_dimensions[get_column_letter(i+1)].width = col_width * 1.5
-
-    row += 2
-    ws.cell(row, 1).value = "RECTANGULAR"
-    ws.cell(row, 1).font = Font(bold=True)
-
-    ws.cell(row, 2).value = sink_counts[0]
-    ws.cell(row, 2).alignment = Alignment(horizontal="center")
-
-    row += 1
-    ws.cell(row, 1).value = "OVAL"
-    ws.cell(row, 1).font = Font(bold=True)
-
-    ws.cell(row, 2).value = sink_counts[1]
-    ws.cell(row, 2).alignment = Alignment(horizontal="center")
     row += 2
 
     for i, color in enumerate(sink_colors):
@@ -186,6 +170,18 @@ def write_counter_top(ws, start_row, details, sizes, colors, sink_counts, sink_c
             ws.cell(row, i+2).value = sink_total[i]
             ws.cell(row, i+2).alignment = Alignment(horizontal="center")
             ws.cell(row, i+2).border = border_style
+    row += 2
+    
+    ws.cell(row, 1).value = "RECTANGULAR"
+    ws.cell(row, 1).font = Font(bold=True)
+    ws.cell(row, 2).value = sink_counts[0]
+    ws.cell(row, 2).alignment = Alignment(horizontal="center")
+    row += 1
+    
+    ws.cell(row, 1).value = "OVAL"
+    ws.cell(row, 1).font = Font(bold=True)
+    ws.cell(row, 2).value = sink_counts[1]
+    ws.cell(row, 2).alignment = Alignment(horizontal="center")
 
     for i, col_width in enumerate(max_col_width):
         ws.column_dimensions[get_column_letter(i+1)].width = col_width * 1.7
