@@ -41,7 +41,7 @@ def get_order_list(wb, cupboard_parts):
         if item_name[5] == "TOWER MOULDING" or  item_name[5] == "DOOR MOULDING":
             item_name[5] = "MOULDING"
             
-    #get framed mirror data into a list
+    # get framed mirror data into a list
     framed_mirror_data = []
     final_list = []
     for row in range(1, ws.max_row+1):
@@ -49,12 +49,15 @@ def get_order_list(wb, cupboard_parts):
         if(isinstance(cupboard,int)):
             if ws.cell(row,13).value != None:
                 framed_mirror_count = re.findall('\d+',ws.cell(row+2,13).value.strip())
-                size = ws.cell(row, 13).value.strip()
-                size = re.sub(' +', '', size)
-                size = size.replace("X", " X ")
-                size = size.replace("W", " W")
-                size = size.replace("H", " H")
-                framed_mirror_list = [int(framed_mirror_count[0]),f'{ws.cell(row,8).value.strip()}_{ws.cell(row,7).value.strip()}_{ws.cell(row,9).value.strip()}_{size}']
+                material = ws.cell(row,8).value.strip()
+                style = ws.cell(row,7).value.strip()
+                color = ws.cell(row,9).value.strip()
+                size = ws.cell(row,13).value.strip()
+                size = re.sub(' +', '',size)
+                size =  size.replace("X" , " X ")
+                size =  size.replace("W" , " W")
+                size =  size.replace("H" , " H")
+                framed_mirror_list = [int(framed_mirror_count[0]),f'{material}_{style}_{color}_{size}']
                 framed_mirror_data.append(framed_mirror_list)
                  
     fr_set = set()
@@ -84,6 +87,6 @@ if __name__ == "__main__":
     cupboard_parts = get_cupboard_list(wb)
     items, work_week = get_order_list(wb, cupboard_parts)
 
-    for p in items:
-        print(p)
+    #for p in items:
+        #print(p)
 
