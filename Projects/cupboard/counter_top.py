@@ -34,8 +34,10 @@ def get_counter_tops(wb):
         if (type(order_number) == int) or bool(re.search(r'\d',str(order_number))):
             if size != None:
                 size  = size.strip()
-                color = color.strip()
-                sink  = sink.strip()
+                if color != None:
+                    color = color.strip()
+                if sink != None:
+                    sink  = sink.strip()
                 size = size.replace('"', '')
                 if sink == "RECTANGULAR":
                     rect_count += 1
@@ -96,11 +98,14 @@ def get_countertop_details(counter_tops, sizes, colors, counter_tops_sink,size_s
             if data[0] == List[0] and data[1] == List[2]:
                 key = List[0]+ '-' + List[2]
                 if (key in sink_details):
-                    sink_details[key][List[1]] += 1
+                    if (List[1] in sink_details[key]):
+                        sink_details[key][List[1]] += 1
+                    else:  
+                        sink_details[key][List[1]] = 1    
                 else:
                     sink_details[key] = {}
-                    sink_details[key][List[1]] = 1    
-     
+                    sink_details[key][List[1]] = 1
+    
     return details, sink_details
 
 def write_counter_top(ws, start_row, details, sizes, colors, sink_counts, sink_colors, sink_details):
