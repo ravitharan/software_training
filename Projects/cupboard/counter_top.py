@@ -187,9 +187,9 @@ def write_counter_top(ws, start_row, details, sizes, colors, sink_counts, sink_c
     ws.cell(row, 1).font = Font(bold=True)
     ws.cell(row, 2).value = sink_counts[1]
     ws.cell(row, 2).alignment = Alignment(horizontal="center")
-
+    
     for i, col_width in enumerate(max_col_width):
-        ws.column_dimensions[get_column_letter(i+1)].width = col_width * 1.7
+        ws.column_dimensions[get_column_letter(i+1)].width = (col_width + 2)* 1.9
             
     return row
 
