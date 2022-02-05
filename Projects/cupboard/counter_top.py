@@ -147,7 +147,7 @@ def write_counter_top(ws, start_row, details, sizes, colors, sink_counts, sink_c
     row += 2
 
     for i, color in enumerate(sink_colors):
-        max_col_width[i+1] = len(color)
+        max_col_width[i+1] = (len(color) + 6)
         ws.cell(row, i+2).value = color
         ws.cell(row, i+2).font = Font(bold=True)
         ws.cell(row, i+2).alignment = Alignment(horizontal="center")
