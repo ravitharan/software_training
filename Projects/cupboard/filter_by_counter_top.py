@@ -3,6 +3,7 @@ from openpyxl.utils import get_column_letter
 from openpyxl.utils import column_index_from_string
 import sys
 import re
+import logging
 
 TEMPLATE_FILE = "ct_template.xlsx"
 
@@ -13,10 +14,14 @@ def xl_filter(order_wb):
     maximum_row = active_sheet.max_row
     maximum_column = active_sheet.max_column
 
+    logging.info(f'FILTER BY COUNTER TOP DATA')
     template_row  = 6
     ct_count      = 0
 
     for row in range(1, maximum_row + 1):
+        # creat log file for finding errors
+        logging.info(f'{"  "}ROW NUMBER :{row}')
+
         """Header write"""
         if isinstance(active_sheet.cell(row, 1).value, str):
             if  "DATE ISSUE:" in active_sheet.cell(row, 1).value:
