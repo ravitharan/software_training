@@ -1,6 +1,7 @@
 import openpyxl  # A python module to handle Excel files
 import re        #  Regular Expressions (RegEx) is a special sequence of characters that uses a search pattern to find a string or set of strings
 import sys
+import logging
 
 def clean_description(description):
     '''
@@ -62,10 +63,15 @@ def get_cupboard_list(wb):
     '''
     ws = wb["VANITY INFO"]
     maximum_row = ws.max_row
+    logging.info(f'VANITY INFO SHEET')
     cupboard_parts = {}
     for x in range(1 , maximum_row + 1):
         value_C = ws["C" + str(x)].value
         value_D = ws["D" + str(x)].value
+
+        # creat log file for finding errors
+        logging.warning(f'{"  "}ROW NUMBER :{x} ,{"  "} Cell Address -{"C" + str(x)} : {value_C}, {"  "}, Cell Address -{"D" + str(x)} : {value_D}')
+
         if (type(value_C) == int) and (value_D != None) :
             description = clean_description(value_D)
             parts_list = split_parts_details(description)
@@ -81,8 +87,8 @@ if __name__ == "__main__":
     excel_file = sys.argv[1]
     wb = openpyxl.load_workbook(excel_file, data_only=True)
     cupboard_parts = get_cupboard_list(wb)
-    for key in cupboard_parts:
-        print(key , " ")
-        for parts in cupboard_parts[key]:
-            print(parts)
+    #for key in cupboard_parts:
+     #   print(key , " ")
+      #  for parts in cupboard_parts[key]:
+       #     print(parts)
 
