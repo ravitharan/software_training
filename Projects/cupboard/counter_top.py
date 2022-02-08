@@ -1,6 +1,7 @@
 import re
 import sys
 import openpyxl
+import logging
 from openpyxl.styles import *
 from openpyxl.utils import get_column_letter
 
@@ -22,7 +23,8 @@ def get_counter_tops(wb):
     colors = set()
     sinks = set()
     sink_colors = set()
-    
+
+    logging.info(f'Main Sheet : COUNTER TOPS DATA')
     rect_count = 0
     oval_count = 0
     for x in range(1 , maximum_row + 1):
@@ -31,6 +33,10 @@ def get_counter_tops(wb):
         color = ws["AG" + str(x)].value
         sink  = ws["AH" + str(x)].value
         sink_splash = ws["Z" + str(x)].value
+
+        # creat log file for finding errors
+        logging.info(f'{"  "}ROW NUMBER :{x} ,{"  "} Cell Address -{"AF" + str(x)} : {size}, {"  "}, Cell Address -{"AG" + str(x)} : {color}, {"  "}, Cell Address -{"AH" + str(x)} : {sink}, {"  "}, Cell Address -{"Z" + str(x)} : {sink_splash}')
+
         if (type(order_number) == int) or bool(re.search(r'\d',str(order_number))):
             if size != None:
                 size  = size.strip()
