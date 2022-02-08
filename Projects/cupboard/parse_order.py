@@ -1,5 +1,5 @@
 from parse_vanity_info import *
-
+import logging
 
 def get_order_list(wb, cupboard_parts):
     '''
@@ -9,6 +9,7 @@ def get_order_list(wb, cupboard_parts):
     work_week = ws['H1'].value
     print(f'WORK_WEEK {work_week}')
 
+    logging.info(f'Main Sheet : CUPBOARD DATA')
     ordered_parts = []
     for row in range(1, ws.max_row+1):
         cupboard = ws.cell(row,5).value
@@ -16,6 +17,9 @@ def get_order_list(wb, cupboard_parts):
             continue
             
         elif(isinstance(cupboard,int)):
+            # creat log file for finding errors
+            logging.info(f'{"  "}ROW NUMBER :{row}')
+
             material = ws.cell(row,8).value.strip()
             style = ws.cell(row,7).value.strip()
             color = ws.cell(row,9).value.strip()
@@ -44,10 +48,14 @@ def get_order_list(wb, cupboard_parts):
     # get framed mirror data into a list
     framed_mirror_data = []
     final_list = []
+    logging.info(f'Main Sheet : FRAMED MIRROR DATA ')
     for row in range(1, ws.max_row+1):
         cupboard = ws.cell(row,5).value
         if(isinstance(cupboard,int)):
             if ws.cell(row,13).value != None:
+                # creat log file for finding errors
+                logging.info(f'{"  "}ROW NUMBER :{row}')
+                
                 framed_mirror_count = re.findall('\d+',ws.cell(row+2,13).value.strip())
                 material = ws.cell(row,8).value.strip()
                 style = ws.cell(row,7).value.strip()
@@ -59,6 +67,7 @@ def get_order_list(wb, cupboard_parts):
                 size =  size.replace("H" , " H")
                 framed_mirror_list = [int(framed_mirror_count[0]),f'{material}_{style}_{color}_{size}']
                 framed_mirror_data.append(framed_mirror_list)
+                
                  
     fr_set = set()
     for List in framed_mirror_data:
