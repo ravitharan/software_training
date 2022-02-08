@@ -1,6 +1,7 @@
 import re
 import sys
 import openpyxl
+import logging
 from openpyxl.styles import *
 from openpyxl.utils import get_column_letter
 
@@ -12,10 +13,15 @@ ORDER_NUMBER            = "C"
 def hardware_data(wb):
     current_sheet = wb["Main Sheet"]
     maximum_row = current_sheet.max_row
+    logging.info(f'Main Sheet : HARDWARE DATA')
     hardware_count_items = []
     for x in range(1 , maximum_row + 1):
         cupboard_id = current_sheet[CUPBOARD_ID_COLUMN + str(x)].value
         order_no  = current_sheet[ORDER_NUMBER + str(x)].value
+
+        # creat log file for finding errors
+        logging.info(f'{"  "}ROW NUMBER :{x} ,{"  "} Cell Address -{CUPBOARD_ID_COLUMN + str(x)} : {cupboard_id}, {"  "}, Cell Address -{ORDER_NUMBER + str(x)} : {order_no}')
+
         if (isinstance(cupboard_id, int) or (('w' in str(cupboard_id)) or ('W' in str(cupboard_id)))) and (bool(re.search(r'\d',str(order_no)))) :
             count_items = []
             c = x + 2
