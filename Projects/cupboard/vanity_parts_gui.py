@@ -1,5 +1,6 @@
 import PySimpleGUI as sg
 import os
+import logging
 from parse_vanity_info import *
 from parse_order import *
 from write_order_parts import *
@@ -11,6 +12,7 @@ from filter_by_counter_top import *
 OUTPUT_FILE     = "output.xlsx"
 BIG_LABEL_FILE  = "big_label.xlsx"
 CT_ORDER_FILE   = "counter_top_orders.xlsx"
+LOG_FILE        = "log_file.log"
 
 if __name__ == '__main__':
 
@@ -35,6 +37,10 @@ if __name__ == '__main__':
                 input_xlsx = values[0]
                 dst_path = os.path.dirname(input_xlsx)
                 output_file = os.path.join(dst_path, OUTPUT_FILE)
+
+                log_file = os.path.join(dst_path, LOG_FILE)
+                logging.basicConfig(level = logging.INFO, filename = log_file, filemode = 'w') 
+    
 
                 wb_in = openpyxl.load_workbook(input_xlsx, data_only=True)
                 cupboard_parts = get_cupboard_list(wb_in)
